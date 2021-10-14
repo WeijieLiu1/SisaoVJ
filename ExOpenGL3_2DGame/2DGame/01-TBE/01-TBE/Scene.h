@@ -33,9 +33,11 @@ private:
 private:
 	TileMap *map;
 	Player* player;
+	Player* playerInv;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
+	glm::vec2 camOffset;
 
 };
 
