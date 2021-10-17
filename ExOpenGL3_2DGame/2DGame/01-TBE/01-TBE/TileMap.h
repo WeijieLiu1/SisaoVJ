@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include "Texture.h"
 #include "ShaderProgram.h"
-
+#include "ObjectsController.h"
 
 // Class Tilemap is capable of loading a tile map from a text file in a very
 // simple format (see level01.txt for an example). With this information
@@ -24,6 +24,7 @@ public:
 	~TileMap();
 
 	void render() const;
+	void update(float deltaTime);
 	void free();
 
 	int getTileSize() const { return tileSize; }
@@ -46,7 +47,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-
+	ObjectsController objectsController;
 };
 
 

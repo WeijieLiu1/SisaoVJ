@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="MapObjects">
+      <UniqueIdentifier>{7aeb355b-7725-4e30-9ee7-44c615a2306a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectsController.cpp">
+      <Filter>MapObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -70,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="AnimKeyframes.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectsController.h">
+      <Filter>MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

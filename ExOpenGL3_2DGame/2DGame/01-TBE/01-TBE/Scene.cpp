@@ -45,6 +45,7 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
+	map->update(deltaTime);
 	player->update(deltaTime);
 	playerInv->update(deltaTime);
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
