@@ -38,7 +38,6 @@ private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
 
-private:
 	GLuint vao;
 	GLuint vbo;
 	GLint posLocation, texCoordLocation;
@@ -47,7 +46,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-	ObjectsController objectsController;
+//	ObjectsController objectsController;
 };
 
 

@@ -1,8 +1,8 @@
 #include "ObjectsController.h"
-ObjectsController::ObjectsController(TileMap* scene)
-	: currentScene(scene), sceneObjects(std::vector<Object*>(0))
-{
-}
+//ObjectsController::ObjectsController(TileMap* scene)
+	//: currentScene(scene), sceneObjects(std::vector<Object*>(0))
+//{
+//}
 void ObjectsController::update(float deltaTime)
 {
 	int numObjecs = sceneObjects.size();

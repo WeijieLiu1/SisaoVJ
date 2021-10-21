@@ -5,9 +5,9 @@
 class ObjectsController
 {
 	std::vector<Object*> sceneObjects;
-	TileMap* currentScene;
+//	TileMap* currentScene;
 public:
-	ObjectsController(TileMap* scene);
+	//ObjectsController(TileMap* scene);
 	void update(float deltaTime);
 	void render() const;
 	void addObject(Object* ob);
