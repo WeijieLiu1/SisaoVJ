@@ -46,7 +46,7 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="ObjectsController.cpp">
-      <Filter>MapObjects</Filter>
+      <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,10 +78,10 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ObjectsController.h">
-      <Filter>MapObjects</Filter>
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>MapObjects</Filter>
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,7 +36,6 @@ public:
 private:
 	bool loadShaderSource(const string &filename, string &shaderSource);
 
-private:
 	GLuint shaderId;
 	bool compiled;
 	string errorLog;

@@ -3,7 +3,7 @@
 	//: currentScene(scene), sceneObjects(std::vector<Object*>(0))
 //{
 //}
-void ObjectsController::update(float deltaTime)
+/*void ObjectsController::update(float deltaTime)
 {
 	int numObjecs = sceneObjects.size();
 	for (int i = 0; i < numObjecs; i++) sceneObjects[i]->update(deltaTime);
@@ -20,4 +20,4 @@ void ObjectsController::addObject(Object* ob)
 Object* ObjectsController::getObject(int index)
 {
 	return sceneObjects[index];
-}
+}*/
