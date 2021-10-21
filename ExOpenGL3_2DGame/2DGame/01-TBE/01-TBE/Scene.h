@@ -6,6 +6,9 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "ObjectsController.h"
+#include "Object.h"
+#include "Spikes.h"
 
 
 #define CAMERA_WIDTH 640
@@ -32,13 +35,14 @@ private:
 
 private:
 	TileMap *map;
+	ObjectsController *objectsController;
 	Player* player;
 	Player* playerInv;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
 	glm::vec2 camOffset;
-
+	
 };
 
 

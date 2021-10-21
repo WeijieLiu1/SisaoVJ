@@ -13,8 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="MapObjects">
-      <UniqueIdentifier>{7aeb355b-7725-4e30-9ee7-44c615a2306a}</UniqueIdentifier>
+    <Filter Include="Archivos de código fuente\MapObjects">
+      <UniqueIdentifier>{dedeb933-fda8-47f4-93d1-ff0cad583e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MapObjects">
+      <UniqueIdentifier>{1953a948-df35-4f59-938d-9f13222af62d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +49,10 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="ObjectsController.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Spikes.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,10 +84,13 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ObjectsController.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\MapObjects</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Spikes.h">
+      <Filter>Archivos de encabezado\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

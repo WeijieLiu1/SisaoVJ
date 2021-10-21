@@ -1,6 +1,12 @@
 #ifndef _OBJECT_INCLUDE
 #define _OBJECT_INCLUDE
-
+#include <cmath>
+#include <iostream>
+#include <GL/glew.h>
+#include <GL/glut.h>
+#include "Texture.h"
+#include "Sprite.h"
+#include "TileMap.h"
 class Object
 {
 

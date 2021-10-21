@@ -22,6 +22,8 @@ Scene::~Scene()
 	if(map != NULL)
 		delete map;
 	if (player != NULL) delete player;
+	if (playerInv != NULL) delete playerInv;
+	if (objectsController != NULL) delete objectsController;
 }
 
 
@@ -40,12 +42,17 @@ void Scene::init()
 	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	camOffset = glm::vec2(0, 0);
+
+	objectsController = new ObjectsController(map);
+	Spikes *sp = new Spikes(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	objectsController->addObject(sp);
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	map->update(deltaTime);
+	objectsController->update(deltaTime);
 	player->update(deltaTime);
 	playerInv->update(deltaTime);
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
@@ -64,6 +71,7 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
+	objectsController->render();
 	player->render();
 	playerInv->render();
 }

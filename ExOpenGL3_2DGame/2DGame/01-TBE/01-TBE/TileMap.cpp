@@ -42,11 +42,11 @@ void TileMap::render() const
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
 	glDisable(GL_TEXTURE_2D);
-	//objectsController.render();
+
 }
 void TileMap::update(float deltaTime)
 {
-	//objectsController.update(deltaTime);
+	
 }
 void TileMap::free()
 {
