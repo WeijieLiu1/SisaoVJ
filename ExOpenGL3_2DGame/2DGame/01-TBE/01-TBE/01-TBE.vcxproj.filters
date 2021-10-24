@@ -19,6 +19,12 @@
     <Filter Include="Archivos de encabezado\MapObjects">
       <UniqueIdentifier>{1953a948-df35-4f59-938d-9f13222af62d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\CollisionEngine">
+      <UniqueIdentifier>{729e2347-bc96-46dc-9d78-a9e471a30ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\CollisionEngine">
+      <UniqueIdentifier>{72a9ea92-6081-4502-bd7c-437125d3f884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -52,6 +58,12 @@
       <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
     <ClCompile Include="Spikes.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionEngine.cpp">
+      <Filter>Archivos de código fuente\CollisionEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
       <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Spikes.h">
       <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEngine.h">
+      <Filter>Archivos de encabezado\CollisionEngine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

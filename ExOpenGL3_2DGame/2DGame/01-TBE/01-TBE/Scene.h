@@ -36,6 +36,7 @@ private:
 private:
 	TileMap *map;
 	ObjectsController *objectsController;
+	CollisionEngine* collisionengine;
 	Player* player;
 	Player* playerInv;
 	ShaderProgram texProgram;

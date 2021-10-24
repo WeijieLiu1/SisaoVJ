@@ -8,13 +8,13 @@ class Spikes : public Object
 	Texture spritesheet;
 	Sprite* sprite;
 	TileMap* map;
-	glm::ivec2 tileMapDispl, position;
+	glm::ivec2 position;
 
 public:
-	Spikes(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
+	Spikes(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	void update(float deltaTime) override;
 	void render() override;
-	void collided() override;
+	bool collided() override;
 
 };
 

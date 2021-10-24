@@ -9,10 +9,10 @@ using namespace std;
 
 TileMap::TileMap()
 {
-
 }
 
-TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords,
+	ShaderProgram &program)
 {
 	TileMap *map = new TileMap(levelFile, minCoords, program);
 	
@@ -24,6 +24,7 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 {
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
+
 }
 
 TileMap::~TileMap()

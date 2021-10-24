@@ -1,20 +1,28 @@
 #ifndef _OBJECTSCTRL_INCLUDE
 #define _OBJECTSCTRL_INCLUDE
 
-#include "TileMap.h"
 #include "Object.h"
+#include <GL/glew.h>
+#include <GL/glut.h>
 #include <vector>
 class ObjectsController
 {
 	std::vector<Object*> sceneObjects;
-	int k;
-	TileMap *currentScene;
+	int tileSize = 0;
+	//TileMap *currentScene;
 public:
-	ObjectsController(TileMap* scene);
+	ObjectsController(/*TileMap* scene*/);
 	void update(float deltaTime);
 	void render() const;
 	void addObject(Object* ob);
 	Object* getObject(int index);
+	int getObjectSize();
+	void setTileSize(int size);
+
+	bool collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) const;
+	bool collisionMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
+	bool collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const;
 };
 
 #endif

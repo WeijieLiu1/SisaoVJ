@@ -30,22 +30,28 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
+	collisionengine = new CollisionEngine();
+
+	objectsController = new ObjectsController();
+	Spikes* sp = new Spikes(glm::ivec2(160, 192), texProgram);
+	objectsController->addObject(sp);
+	collisionengine->setObjectsController(objectsController);
+
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0,0), texProgram);
+	collisionengine->setTileMap(map);
+	objectsController->setTileSize(map->getTileSize());
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
+	player->setCollEngine(collisionengine);
 	playerInv = new Player();
 	playerInv->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, true);
 	playerInv->setPosition(glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize(), INIT_INV_PLAYER_Y_TILES * map->getTileSize()));
-	playerInv->setTileMap(map);
+	playerInv->setCollEngine(collisionengine);
 	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	camOffset = glm::vec2(0, 0);
 
-	objectsController = new ObjectsController(map);
-	Spikes *sp = new Spikes(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	objectsController->addObject(sp);
 }
 
 void Scene::update(int deltaTime)
