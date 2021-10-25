@@ -10,9 +10,11 @@ class ObjectsController
 	std::vector<Object*> sceneObjects;
 	int tileSize = 0;
 	//TileMap *currentScene;
+	bool checkCollidedx(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const;
+	bool checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const;
 public:
 	ObjectsController(/*TileMap* scene*/);
-	void update(float deltaTime);
+	EventQueue update(float deltaTime);
 	void render() const;
 	void addObject(Object* ob);
 	Object* getObject(int index);

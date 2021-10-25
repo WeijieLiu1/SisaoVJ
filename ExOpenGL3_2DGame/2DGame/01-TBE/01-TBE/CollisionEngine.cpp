@@ -5,6 +5,11 @@ CollisionEngine::CollisionEngine()
 {
 
 }
+void CollisionEngine::update(float deltaTime)
+{
+
+}
+
 void CollisionEngine::setTileMap(TileMap* tl)
 {
 	tilemap = tl;

@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
+#include "EventQueue.h"
 #include "TileMap.h"
 #include "Player.h"
 #include "ObjectsController.h"

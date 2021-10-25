@@ -25,6 +25,9 @@
     <Filter Include="Archivos de encabezado\CollisionEngine">
       <UniqueIdentifier>{72a9ea92-6081-4502-bd7c-437125d3f884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Events">
+      <UniqueIdentifier>{3d65a9f5-30eb-49bb-a7eb-421448b41302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="CollisionEngine.h">
       <Filter>Archivos de encabezado\CollisionEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Archivos de encabezado\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

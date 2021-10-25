@@ -3,12 +3,14 @@
 
 #include "TileMap.h"
 #include "ObjectsController.h"
+#include "EventQueue.h"
 
 class CollisionEngine {
 	TileMap* tilemap;
 	ObjectsController* objectscontroller;
 public:
 	CollisionEngine();
+	void update(float deltaTime);
 	void setTileMap(TileMap* tl);
 	TileMap* getTilemap();
 	void setObjectsController(ObjectsController* oc);

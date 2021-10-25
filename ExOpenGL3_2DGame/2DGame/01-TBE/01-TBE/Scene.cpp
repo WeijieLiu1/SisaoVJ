@@ -33,8 +33,14 @@ void Scene::init()
 	collisionengine = new CollisionEngine();
 
 	objectsController = new ObjectsController();
-	Spikes* sp = new Spikes(glm::ivec2(160, 192), texProgram);
+	Spikes* sp = new Spikes(glm::ivec2(192, 128), texProgram,3);
 	objectsController->addObject(sp);
+	Spikes* sp2 = new Spikes(glm::ivec2(544, 256), texProgram,3);
+	objectsController->addObject(sp2);
+	Spikes* sp3 = new Spikes(glm::ivec2(256, 320), texProgram);
+	objectsController->addObject(sp3);
+	Spikes* sp4 = new Spikes(glm::ivec2(480, 192), texProgram);
+	objectsController->addObject(sp4);
 	collisionengine->setObjectsController(objectsController);
 
 	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0,0), texProgram);
@@ -58,11 +64,17 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	map->update(deltaTime);
-	objectsController->update(deltaTime);
+	EventQueue aux = objectsController->update(deltaTime);
 	player->update(deltaTime);
 	playerInv->update(deltaTime);
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
 	if (player->getPosition().x - camOffset.x < float(CAMERA_WIDTH - 1) / 3) camOffset.x -= 2;
+
+	while (!aux.queue.empty())
+	{
+		if (aux.queue.front() == EventQueue::playerDead) init();
+		aux.queue.pop();
+	}
 }
 
 void Scene::render()

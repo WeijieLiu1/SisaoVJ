@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="CollisionEngine.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectsController.h" />
