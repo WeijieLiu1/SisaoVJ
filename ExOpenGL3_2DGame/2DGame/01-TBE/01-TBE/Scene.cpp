@@ -19,16 +19,13 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	if(map != NULL)
-		delete map;
-	if (player != NULL) delete player;
-	if (playerInv != NULL) delete playerInv;
-	if (objectsController != NULL) delete objectsController;
+	clearComponents();
 }
 
 
-void Scene::init()
+void Scene::init(int levelNum)
 {
+	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
 
@@ -37,13 +34,14 @@ void Scene::init()
 	objectsController->addObject(sp);
 	Spikes* sp2 = new Spikes(glm::ivec2(544, 256), texProgram,3);
 	objectsController->addObject(sp2);
-	Spikes* sp3 = new Spikes(glm::ivec2(256, 320), texProgram);
+	Star* sp3 = new Star(glm::ivec2(256, 320), texProgram);
 	objectsController->addObject(sp3);
-	Spikes* sp4 = new Spikes(glm::ivec2(480, 192), texProgram);
+	Spikes* sp4 = new Spikes(glm::ivec2(480 , 192), texProgram);
 	objectsController->addObject(sp4);
 	collisionengine->setObjectsController(objectsController);
 
-	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0,0), texProgram);
+	if(levelNum == 0)map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0,0), texProgram);
+	else map = TileMap::createTileMap("levels/level02.txt", glm::vec2(0,0), texProgram);
 	collisionengine->setTileMap(map);
 	objectsController->setTileSize(map->getTileSize());
 	player = new Player();
@@ -72,7 +70,16 @@ void Scene::update(int deltaTime)
 
 	while (!aux.queue.empty())
 	{
-		if (aux.queue.front() == EventQueue::playerDead) init();
+		if (aux.queue.front() == EventQueue::playerDead)
+		{
+			clearComponents();
+			init(currentLevel);
+		}
+		else if (aux.queue.front() == EventQueue::levelCompleted)
+		{
+			clearComponents();
+			init(currentLevel +1);
+		}
 		aux.queue.pop();
 	}
 }
@@ -124,5 +131,12 @@ void Scene::initShaders()
 	fShader.free();
 }
 
-
+void Scene::clearComponents()
+{
+	if (map != NULL)
+		delete map;
+	if (player != NULL) delete player;
+	if (playerInv != NULL) delete playerInv;
+	if (objectsController != NULL) delete objectsController;
+}
 

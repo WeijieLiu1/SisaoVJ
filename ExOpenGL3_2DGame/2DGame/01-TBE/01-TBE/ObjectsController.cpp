@@ -24,6 +24,10 @@ ObjectsController::ObjectsController()
 	: sceneObjects(std::vector<Object*>(0))
 {
 }
+ObjectsController::~ObjectsController()
+{
+	for (int i = 0; i < sceneObjects.size(); i++) delete sceneObjects[i];
+}
 EventQueue ObjectsController::update(float deltaTime)
 {
 	int numObjecs = sceneObjects.size();
@@ -61,10 +65,10 @@ void ObjectsController::setTileSize(int size)
 {
 	tileSize = size;
 }
+
 // Collision tests for axis aligned bounding boxes.
 // Method collisionMoveDown also corrects Y coordinate if the box is
 // already intersecting a tile below.
-
 bool ObjectsController::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) const
 {
 	int x, y0, y1;

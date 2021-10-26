@@ -10,6 +10,7 @@
 #include "ObjectsController.h"
 #include "Object.h"
 #include "Spikes.h"
+#include "Star.h"
 
 
 #define CAMERA_WIDTH 640
@@ -27,13 +28,13 @@ public:
 	Scene();
 	~Scene();
 
-	void init();
+	void init(int levelNum = 0);
 	void update(int deltaTime);
 	void render();
 
 private:
 	void initShaders();
-
+	void clearComponents();
 private:
 	TileMap *map;
 	ObjectsController *objectsController;
@@ -44,7 +45,8 @@ private:
 	float currentTime;
 	glm::mat4 projection;
 	glm::vec2 camOffset;
-	
+	int currentLevel = 0;
+
 };
 
 

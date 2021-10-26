@@ -14,6 +14,7 @@ class ObjectsController
 	bool checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const;
 public:
 	ObjectsController(/*TileMap* scene*/);
+	~ObjectsController(/*TileMap* scene*/);
 	EventQueue update(float deltaTime);
 	void render() const;
 	void addObject(Object* ob);
