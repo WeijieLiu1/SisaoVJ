@@ -34,10 +34,15 @@ void Scene::init(int levelNum)
 	objectsController->addObject(sp);
 	Spikes* sp2 = new Spikes(glm::ivec2(544, 256), texProgram,3);
 	objectsController->addObject(sp2);
-	Star* sp3 = new Star(glm::ivec2(256, 320), texProgram);
+	Spikes* sp3 = new Spikes(glm::ivec2(480, 192), texProgram);
 	objectsController->addObject(sp3);
-	Spikes* sp4 = new Spikes(glm::ivec2(480 , 192), texProgram);
-	objectsController->addObject(sp4);
+	Star* st1 = new Star(glm::ivec2(256, 320), texProgram, true);
+	objectsController->addObject(st1);
+	Star* st2 = new Star(glm::ivec2(256, 128), texProgram, false);
+	objectsController->addObject(st2);
+	Sea* sea = new Sea(glm::ivec2(0, 240), texProgram);
+	objectsController->addObject(sea);
+
 	collisionengine->setObjectsController(objectsController);
 
 	if(levelNum == 0)map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0,0), texProgram);

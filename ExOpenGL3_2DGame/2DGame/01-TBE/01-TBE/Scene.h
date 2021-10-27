@@ -11,7 +11,7 @@
 #include "Object.h"
 #include "Spikes.h"
 #include "Star.h"
-
+#include "Sea.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 480

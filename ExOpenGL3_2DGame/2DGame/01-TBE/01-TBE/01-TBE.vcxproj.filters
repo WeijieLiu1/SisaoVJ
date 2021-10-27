@@ -72,6 +72,9 @@
     <ClCompile Include="Star.cpp">
       <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Sea.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -117,6 +120,9 @@
       <Filter>Archivos de encabezado\Events</Filter>
     </ClInclude>
     <ClInclude Include="Star.h">
+      <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea.h">
       <Filter>Archivos de encabezado\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>

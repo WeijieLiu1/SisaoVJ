@@ -1,5 +1,5 @@
 #include "Star.h"
-Star::Star(const glm::ivec2& pos, ShaderProgram& shaderProgram )
+Star::Star(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool inv )
 {
 	spritesheet.loadFromFile("images/ObjectsUsed.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.2, 0.2), &spritesheet, &shaderProgram);
@@ -12,13 +12,18 @@ Star::Star(const glm::ivec2& pos, ShaderProgram& shaderProgram )
 
 	setPosition(pos);
 	setSize(glm::vec2(32, 32));
+	inverted = inv;
 }
 
 EventQueue Star::update(float deltaTime)
 {
 	sprite->update(deltaTime);
 	EventQueue ret;
-	if (haveCollided) ret.queue.push(ret.levelCompleted);
+	if (haveCollided)
+	{
+		if(inverted) ret.queue.push(ret.invertedStarOver);
+		else ret.queue.push(ret.StarOver);
+	}
 	return ret;
 }
 void Star::render()
@@ -28,5 +33,5 @@ void Star::render()
 bool Star::collided()
 {
 	haveCollided = true;
-	return true;
+	return false; //Is not solid
 }

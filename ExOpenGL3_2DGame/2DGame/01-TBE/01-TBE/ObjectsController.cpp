@@ -32,12 +32,29 @@ EventQueue ObjectsController::update(float deltaTime)
 {
 	int numObjecs = sceneObjects.size();
 	EventQueue ret;
+	bool starDetected = false;
+	bool invStarDetected = false;
 	for (int i = 0; i < numObjecs; i++)
 	{
 		EventQueue aux = sceneObjects[i]->update(deltaTime);
 		while (!aux.queue.empty())
 		{
-			ret.queue.push(aux.queue.front());
+			if (aux.queue.front() == EventQueue::StarOver)
+			{
+				starDetected = true;
+				if (invStarDetected) 
+					ret.queue.push(EventQueue::levelCompleted);
+			}
+			else if (aux.queue.front() == EventQueue::invertedStarOver)
+			{
+				invStarDetected = true;
+				if (starDetected) 
+					ret.queue.push(EventQueue::levelCompleted);
+			}
+			else 
+			{
+				ret.queue.push(aux.queue.front());
+			}
 			aux.queue.pop();
 		}
 		

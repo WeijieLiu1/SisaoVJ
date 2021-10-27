@@ -9,8 +9,9 @@ class Star : public Object
 	Sprite* sprite;
 	glm::ivec2 position;
 	bool haveCollided = false;
+	bool inverted = false;
 public:
-	Star(const glm::ivec2& pos, ShaderProgram& shaderProgram);
+	Star(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool inv);
 	EventQueue update(float deltaTime) override;
 	void render() override;
 	bool collided() override;
