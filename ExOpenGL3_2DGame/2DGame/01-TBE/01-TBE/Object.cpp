@@ -15,3 +15,7 @@ glm::vec2 Object::getSize()
 {
 	return size;
 }
+void Object::setTilemap(TileMap* t)
+{
+	til = t;
+}

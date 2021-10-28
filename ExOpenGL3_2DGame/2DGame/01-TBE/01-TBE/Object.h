@@ -7,15 +7,21 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "EventQueue.h"
+#include "TileMap.h"
 class Object
 {
-	glm::vec2 position;
-	glm::vec2 size;
+
+protected:
+	glm::ivec2 position;
+	glm::ivec2 size;
+	TileMap* til;
 public:
 	void setPosition(glm::vec2 p);
 	glm::vec2 getPosition();
 	void  setSize(glm::vec2 s);
 	glm::vec2 getSize();
+	void setTilemap(TileMap* t);
+
 	virtual EventQueue update(float deltaTime) = 0;
 	virtual void render() = 0;
 	//Returns wheder the object is solid and performs the actions required

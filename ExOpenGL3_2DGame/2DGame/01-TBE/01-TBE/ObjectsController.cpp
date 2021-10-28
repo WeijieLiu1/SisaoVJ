@@ -117,7 +117,7 @@ bool ObjectsController::collisionMoveRight(const glm::ivec2& pos, const glm::ive
 {
 	int x, y0, y1;
 
-	x = pos.x  + size.x;
+	x = pos.x  + size.x-1;
 	y0 = pos.y;
 	y1 = (pos.y + size.y - 1);
 	bool collided = false;
@@ -142,7 +142,7 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 {
 	int x0, x1, y;
 
-	x0 = pos.x ;
+	x0 = pos.x +1;
 	x1 = (pos.x + size.x - 1);
 	y = (pos.y + size.y - 1);
 	bool collided = false;

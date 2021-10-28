@@ -12,6 +12,9 @@
 #include "Spikes.h"
 #include "Star.h"
 #include "Sea.h"
+#include "Barrier.h"
+#include "BarrierOpener.h"
+#include "Box.h"
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 480
