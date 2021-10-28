@@ -128,7 +128,7 @@ void Player::update(int deltaTime)
 		{
 			posPlayer.y -= FALL_STEP;
 
-			if (col->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			if (col->collisionMoveUp(posPlayer, glm::ivec2(24, 32), &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{
@@ -141,7 +141,7 @@ void Player::update(int deltaTime)
 		else
 		{
 			posPlayer.y += FALL_STEP;
-			if (col->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			if (col->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{

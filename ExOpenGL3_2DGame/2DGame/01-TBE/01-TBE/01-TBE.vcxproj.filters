@@ -75,6 +75,15 @@
     <ClCompile Include="Sea.cpp">
       <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BarrierOpener.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Barrier.cpp">
+      <Filter>Archivos de código fuente\MapObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -123,6 +132,15 @@
       <Filter>Archivos de encabezado\MapObjects</Filter>
     </ClInclude>
     <ClInclude Include="Sea.h">
+      <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Barrier.h">
+      <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BarrierOpener.h">
+      <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
       <Filter>Archivos de encabezado\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
