@@ -1,5 +1,5 @@
 #include "Object.h"
-void Object::setPosition(glm::vec2 p)
+void Object::setPosition(glm::ivec2 p)
 {
 	position = p;
 }
@@ -7,7 +7,7 @@ glm::vec2 Object::getPosition()
 {
 	return position;
 }
-void Object::setSize(glm::vec2 s)
+void Object::setSize(glm::ivec2 s)
 {
 	size = s;
 }

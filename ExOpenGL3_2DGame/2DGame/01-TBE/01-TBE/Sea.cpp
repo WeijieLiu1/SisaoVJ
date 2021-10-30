@@ -2,7 +2,7 @@
 Sea::Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram)
 {
 	setPosition(pos);
-	setSize(glm::vec2(INT_MAX, 0));
+	setSize(glm::ivec2(INT_MAX, 0));
 }
 
 EventQueue Sea::update(float deltaTime)
@@ -16,8 +16,8 @@ void Sea::render()
 {
 
 }
-bool Sea::collided()
+bool Sea::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	haveCollided = true;
-	return true; //Is solid
+	return true; //Is s olid
 }

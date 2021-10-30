@@ -74,6 +74,10 @@ Object* ObjectsController::getObject(int index)
 {
 	return sceneObjects[index];
 }
+std::vector<Object*> ObjectsController::getAllObjects()
+{
+	return sceneObjects;
+}
 int ObjectsController::getObjectSize()
 {
 	return sceneObjects.size();
@@ -103,7 +107,7 @@ bool ObjectsController::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec
 			glm::vec2 sizObj = sceneObjects[i]->getSize();
 			if (checkCollidedx(pos, size, posObj, sizObj))
 			{
-				bool aux = sceneObjects[i]->collided(); //This must be here to ensure that the method gets called
+				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
 				collided = collided || aux;
 
 			}
@@ -130,7 +134,7 @@ bool ObjectsController::collisionMoveRight(const glm::ivec2& pos, const glm::ive
 			glm::vec2 sizObj = sceneObjects[i]->getSize();
 			if (checkCollidedx(pos, size, posObj, sizObj))
 			{
-				bool aux = sceneObjects[i]->collided(); //This must be here to ensure that the method gets called
+				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
 				collided = collided || aux;
 			}
 		}
@@ -157,7 +161,8 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 			glm::vec2 sizObj = sceneObjects[i]->getSize();
 			if (checkCollidedy(pos, size, posObj, sizObj))
 			{
-				bool aux = sceneObjects[i]->collided(); //This must be here to ensure that the method gets called
+
+				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
 				if (aux && posObj.y - sizObj.y > newY) newY = posObj.y - (sizObj.y);
 				collided = collided || aux;
 			}
@@ -187,10 +192,15 @@ bool ObjectsController::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2&
 		for (int i = 0; i < objSize; ++i)
 		{
 			auto posObj = sceneObjects[i]->getPosition();
+
 			glm::vec2 sizObj = sceneObjects[i]->getSize();
+			if (posObj == glm::vec2(0, 144))
+			{
+				auto a = posObj;
+			}
 			if (checkCollidedy(pos, size, posObj, sizObj))
 			{
-				bool aux = sceneObjects[i]->collided(); //This must be here to ensure that the method gets called
+				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
 				if (aux && posObj.y + sizObj.y > newY) newY = posObj.y + (sizObj.y);
 				collided = collided || aux;
 			}

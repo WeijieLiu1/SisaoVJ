@@ -30,7 +30,7 @@ void Star::render()
 {
 	sprite->render();
 }
-bool Star::collided()
+bool Star::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	haveCollided = true;
 	return false; //Is not solid

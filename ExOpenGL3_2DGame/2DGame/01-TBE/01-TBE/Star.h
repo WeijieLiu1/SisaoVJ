@@ -14,7 +14,7 @@ public:
 	Star(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool inv);
 	EventQueue update(float deltaTime) override;
 	void render() override;
-	bool collided() override;
+	bool collided(glm::ivec2 source, glm::ivec2 size) override;
 
 };
 

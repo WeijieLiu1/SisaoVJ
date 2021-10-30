@@ -27,7 +27,7 @@ void Spikes::render()
 {
 	sprite->render();
 }
-bool Spikes::collided()
+bool Spikes::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	haveCollided = true;
 	return true;

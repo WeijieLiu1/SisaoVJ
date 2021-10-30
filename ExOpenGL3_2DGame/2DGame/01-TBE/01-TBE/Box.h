@@ -9,12 +9,14 @@ class Box : public Object
 	Sprite* sprite;
 	bool haveCollided = false;
 	bool inverse;
+	std::vector<Object*> obToCollide;
 public:
 	Box(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool in = false);
+	bool checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const;
 	EventQueue update(float deltaTime) override;
 	void render() override;
-	bool collided() override;
-
+	bool collided(glm::ivec2 source, glm::ivec2 size) override;
+	void setObjectsToCollide(std::vector<Object*> oc);
 };
 
 #endif

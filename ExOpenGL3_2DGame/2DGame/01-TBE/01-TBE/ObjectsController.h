@@ -19,6 +19,7 @@ public:
 	void render() const;
 	void addObject(Object* ob);
 	Object* getObject(int index);
+	std::vector<Object*> getAllObjects();
 	int getObjectSize();
 	void setTileSize(int size);
 

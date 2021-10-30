@@ -5,13 +5,12 @@
 
 class Sea : public Object
 {
-	glm::ivec2 position;
 	bool haveCollided = false;
 public:
 	Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	EventQueue update(float deltaTime) override;
 	void render() override;
-	bool collided() override;
+	bool collided(glm::ivec2 source, glm::ivec2 size) override;
 };
 
 #endif

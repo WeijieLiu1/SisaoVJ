@@ -32,6 +32,8 @@ void Scene::init(int levelNum)
 	objectsController = new ObjectsController();
 	Spikes* sp = new Spikes(glm::ivec2(224, 128), texProgram,3);
 	objectsController->addObject(sp);
+	Spikes* sk = new Spikes(glm::ivec2(128, 64), texProgram, 0);
+	objectsController->addObject(sk);
 	Box* sp2 = new Box(glm::ivec2(192, 32), texProgram);
 	objectsController->addObject(sp2);
 	Box* sp3 = new Box(glm::ivec2(356, 128), texProgram);
@@ -40,7 +42,7 @@ void Scene::init(int levelNum)
 	objectsController->addObject(st1);
 	Star* st2 = new Star(glm::ivec2(256, 128), texProgram, false);
 	objectsController->addObject(st2);
-	Sea* sea = new Sea(glm::ivec2(0, 240), texProgram);
+	Sea* sea = new Sea(glm::ivec2(-INT_MAX/4, 240), texProgram);
 	objectsController->addObject(sea);
 
 	collisionengine->setObjectsController(objectsController);
@@ -51,6 +53,8 @@ void Scene::init(int levelNum)
 	sp3->setTilemap(map);
 	sp2->setTilemap(map);
 	objectsController->setTileSize(map->getTileSize());
+	sp2->setObjectsToCollide(objectsController->getAllObjects());
+	sp3->setObjectsToCollide(objectsController->getAllObjects());
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
