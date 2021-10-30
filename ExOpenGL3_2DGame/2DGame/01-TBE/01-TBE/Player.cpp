@@ -22,14 +22,23 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, bo
 {
 	bJumping = false;
 	spritesheet.loadFromFile("images/sonic.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(24, 32), glm::vec2(xSpriteSize, ySpriteSize), &spritesheet, &shaderProgram);
+	sizePlayer = glm::ivec2(24, 32);
+	sprite = Sprite::createSprite(sizePlayer, glm::vec2(xSpriteSize, ySpriteSize), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(4);
 
-	sprite->setAnimationSpeed(STAND_LEFT, 8);
-	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
+	sprite->setAnimationSpeed(STAND_LEFT, 4);
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(1.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(2.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(3.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(4.f * xSpriteSize, 0.f));
 
-	sprite->setAnimationSpeed(STAND_RIGHT, 8);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 0.f));
+	sprite->setAnimationSpeed(STAND_RIGHT, 4);
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(1.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(2.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(3.f * xSpriteSize, 0.f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(4.f * xSpriteSize, 0.f));
 
 	sprite->setAnimationSpeed(MOVE_LEFT, 8);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(5.0f* xSpriteSize, 0.f));
@@ -56,25 +65,29 @@ void Player::update(int deltaTime)
 	sprite->update(deltaTime);
 	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
-		if (sprite->animation() != MOVE_LEFT)
+		if (sprite->animation() != MOVE_LEFT) {
 			sprite->changeAnimation(MOVE_LEFT);
+			lookAtRight = false;
+		}
+			
 		posPlayer.x -= 2;
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
+		if (map->collisionMoveLeft(posPlayer, sizePlayer))
 		{
 			posPlayer.x += 2;
-			sprite->changeAnimation(STAND_LEFT);
+			//sprite->changeAnimation(STAND_LEFT);
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
-		if (sprite->animation() != MOVE_RIGHT)
+		if (sprite->animation() != MOVE_RIGHT) {
 			sprite->changeAnimation(MOVE_RIGHT);
-
+			lookAtRight = true;
+		}
 		posPlayer.x += 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
+		if (map->collisionMoveRight(posPlayer, sizePlayer))
 		{
 			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
+			//sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
 	else
@@ -83,6 +96,15 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(STAND_LEFT);
 		else if (sprite->animation() == MOVE_RIGHT)
 			sprite->changeAnimation(STAND_RIGHT);
+		/*
+		* 
+		if (sprite->animation() == STAND_LEFT)
+			sprite->changeAnimation(STAND_LEFT);
+		else if (sprite->animation() == STAND_RIGHT)
+			sprite->changeAnimation(STAND_RIGHT);
+		*/
+		
+
 	}
 
 	if (bJumping)
@@ -101,10 +123,10 @@ void Player::update(int deltaTime)
 			{
 				posPlayer.y = int(startY + 96 * sin(3.14159f * jumpAngle / 180.f));
 				if (jumpAngle > 90)
-					bJumping = !map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+					bJumping = !map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y);
 				else
 				{
-					if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+					if (map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
 						bJumping = false;
 				}
 			}
@@ -112,10 +134,10 @@ void Player::update(int deltaTime)
 			{
 				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 				if (jumpAngle > 90)
-					bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+					bJumping = !map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y);
 				else
 				{
-					if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+					if (map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
 						bJumping = false;
 				}
 			}
@@ -127,7 +149,7 @@ void Player::update(int deltaTime)
 		{
 			posPlayer.y -= FALL_STEP;
 
-			if (map->collisionMoveUp(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			if (map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{
@@ -140,7 +162,7 @@ void Player::update(int deltaTime)
 		else
 		{
 			posPlayer.y += FALL_STEP;
-			if (map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+			if (map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{
@@ -157,7 +179,27 @@ void Player::update(int deltaTime)
 
 void Player::render()
 {
-	sprite->render();
+
+	if (lookAtRight){
+		sprite->render();
+		}
+	else {
+		sprite->render_inv_x();
+	}
+	//lookAtRight = !lookAtRight;
+}
+
+void Player::render_inv_y()
+{
+
+	if (lookAtRight) {
+		sprite->render_inv_y();
+		
+	}
+	else {
+		sprite->render_inv_xy();
+	}
+	//lookAtRight = !lookAtRight;
 }
 
 void Player::setTileMap(TileMap* tileMap)

@@ -24,6 +24,9 @@ public:
 
 	void update(int deltaTime);
 	void render() const;
+	void render_inv_y() const;
+	void render_inv_x() const;
+	void render_inv_xy() const;
 	void free();
 
 	void setNumberAnimations(int nAnimations);

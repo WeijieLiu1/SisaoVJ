@@ -17,14 +17,16 @@ public:
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, bool inv = false);
 	void update(int deltaTime);
 	void render();
+	void render_inv_y();
 
 	void setTileMap(TileMap* tileMap);
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition();
 private:
+	bool lookAtRight = true;
 	bool inverse;
 	bool bJumping;
-	glm::ivec2 tileMapDispl, posPlayer;
+	glm::ivec2 tileMapDispl, posPlayer, sizePlayer;
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite* sprite;

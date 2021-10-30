@@ -24,6 +24,7 @@ public:
 	~TileMap();
 
 	void render() const;
+	void render_inv_y() const;
 	void update(float deltaTime);
 	void free();
 
@@ -40,12 +41,15 @@ private:
 
 	GLuint vao;
 	GLuint vbo;
+	ShaderProgram* shaderProgram;
 	GLint posLocation, texCoordLocation;
 	glm::ivec2 position, mapSize, tilesheetSize;
 	int tileSize, blockSize;
 	Texture tilesheet;
-	glm::vec2 tileTexSize;
+	glm::vec2 tileMapDispl,tileTexSize;
 	int *map;
+
+	glm::vec2 texCoordDispl;
 };
 
 
