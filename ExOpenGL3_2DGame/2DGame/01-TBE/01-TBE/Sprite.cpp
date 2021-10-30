@@ -3,6 +3,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Sprite.h"
 
+#define Player_xSpriteSize 0.06667
+#define Player_ySpriteSize 0.125
+
 
 Sprite* Sprite::createSprite(const glm::vec2& quadSize, const glm::vec2& sizeInSpritesheet, Texture* spritesheet, ShaderProgram* program)
 {
@@ -52,7 +55,76 @@ void Sprite::update(int deltaTime)
 
 void Sprite::render() const
 {
+	glm::mat4 modelview = glm::mat4(1.0f);
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
+	//modelview = glm::translate(modelview, glm::vec3(-Player_xSpriteSize / 2, -Player_ySpriteSize / 2, 0.f));
+	//rotate
+	//modelview = glm::rotate(modelview, 3.1415f, glm::vec3(0.f, 0.f, 1.f));
+	shaderProgram->setUniformMatrix4f("modelview", modelview);
+	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
+	glEnable(GL_TEXTURE_2D);
+	texture->use();
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(texCoordLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisable(GL_TEXTURE_2D);
+}
+
+void Sprite::render_inv_x() const
+{
+	glm::mat4 modelview = glm::mat4(1.0f);
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
+	//modelview = glm::translate(glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f)), glm::vec3(-Player_xSpriteSize/2, 0.0f, 0.0f));
+	//modelview = glm::translate(modelview, glm::vec3(-position.x, -position.y, 0.f));
+	modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
+	//改为32/2后不再瞬移
+	modelview = glm::translate(modelview, glm::vec3(-24, 0, 0.f));
+	//rotate
+
+
+	shaderProgram->setUniformMatrix4f("modelview", modelview);
+	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
+	glEnable(GL_TEXTURE_2D);
+	texture->use();
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(texCoordLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisable(GL_TEXTURE_2D);
+}
+
+void Sprite::render_inv_y() const
+{
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
+	//rotate
+	//modelview = glm::rotate(modelview, 3.1415f, glm::vec3(0.f, 0.f, 1.f));
+	modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
+
+	shaderProgram->setUniformMatrix4f("modelview", modelview);
+	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
+	
+	glEnable(GL_TEXTURE_2D);
+	texture->use();
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(texCoordLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisable(GL_TEXTURE_2D);
+}
+
+
+void Sprite::render_inv_xy() const
+{
+	glm::mat4 modelview = glm::mat4(1.0f);
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
+	//modelview = glm::translate(glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f)), glm::vec3(-Player_xSpriteSize/2, 0.0f, 0.0f));
+	//modelview = glm::translate(modelview, glm::vec3(-position.x, -position.y, 0.f));
+	modelview = glm::scale(modelview, glm::vec3(-1.0f, -1.0f, 1.0f));
+	//改为32/2后不再瞬移
+	modelview = glm::translate(modelview, glm::vec3(-24 , 0, 0.f));
+	//rotate
+
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 	glEnable(GL_TEXTURE_2D);

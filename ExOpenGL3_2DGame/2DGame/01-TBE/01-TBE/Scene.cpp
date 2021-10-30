@@ -58,8 +58,11 @@ void Scene::init(int levelNum)
 	playerInv = new Player();
 	playerInv->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, true);
 	playerInv->setPosition(glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize(), INIT_INV_PLAYER_Y_TILES * map->getTileSize()));
+
+	playerInv->setTileMap(map);
+	//projection = glm::ortho(-float(CAMERA_WIDTH - 1 + 320), float(CAMERA_WIDTH - 1+320), float(CAMERA_HEIGHT - 1+320), -float(CAMERA_HEIGHT - 1 + 320));
+	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1 + 32), float(CAMERA_HEIGHT - 1 + 32), 0.f);
 	playerInv->setCollEngine(collisionengine);
-	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1), float(CAMERA_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	camOffset = glm::vec2(0, 0);
 
@@ -72,6 +75,7 @@ void Scene::update(int deltaTime)
 	EventQueue aux = objectsController->update(deltaTime);
 	player->update(deltaTime);
 	playerInv->update(deltaTime);
+	//�ƶ�����
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
 	if (player->getPosition().x - camOffset.x < float(CAMERA_WIDTH - 1) / 3) camOffset.x -= 2;
 
@@ -93,19 +97,20 @@ void Scene::update(int deltaTime)
 
 void Scene::render()
 {
-	glm::mat4 modelview;
-
+	glm::mat4 modelview = glm::mat4(1.0f);;
+	//modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
 	texProgram.use();
 	auto projAux = glm::translate(projection, glm::vec3(-camOffset, 0));
 	texProgram.setUniformMatrix4f("projection", projAux);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	modelview = glm::mat4(1.0f);
+	//modelview = glm::mat4(1.0f);
+	//modelview = glm::scale(modelview, glm::vec3(1.0f, 1.0f, 1.0f));
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	objectsController->render();
 	player->render();
-	playerInv->render();
+	playerInv->render_inv_y();
 }
 
 void Scene::initShaders()
