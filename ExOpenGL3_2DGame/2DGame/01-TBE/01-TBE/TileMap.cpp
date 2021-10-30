@@ -12,10 +12,10 @@ using namespace std;
 
 TileMap::TileMap()
 {
-
 }
 
-TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords,
+	ShaderProgram &program)
 {
 	TileMap *map = new TileMap(levelFile, minCoords, program);
 	
@@ -27,6 +27,7 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 {
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
+
 }
 
 TileMap::~TileMap()
@@ -81,12 +82,11 @@ void TileMap::render() const
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
 	glDisable(GL_TEXTURE_2D);
-	//objectsController.render();
 
 }
 void TileMap::update(float deltaTime)
 {
-	//objectsController.update(deltaTime);
+	
 }
 void TileMap::free()
 {
@@ -282,7 +282,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2& pos, const glm::ivec2& size, i
 
 		if (aux != 0 && aux != 1)
 		{
-			if (*posY - tileSize * y + size.y <= 6)
+			if (*posY - tileSize * y + size.y <= 12)
 			{
 				*posY = tileSize * y - size.y;
 				return true;

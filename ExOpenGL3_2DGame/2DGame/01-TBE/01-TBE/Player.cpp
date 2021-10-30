@@ -71,6 +71,7 @@ void Player::update(int deltaTime)
 		}
 			
 		posPlayer.x -= 2;
+
 		if (map->collisionMoveLeft(posPlayer, sizePlayer))
 		{
 			posPlayer.x += 2;
@@ -84,6 +85,7 @@ void Player::update(int deltaTime)
 			lookAtRight = true;
 		}
 		posPlayer.x += 2;
+
 		if (map->collisionMoveRight(posPlayer, sizePlayer))
 		{
 			posPlayer.x -= 2;
@@ -121,7 +123,7 @@ void Player::update(int deltaTime)
 		{
 			if(inverse)
 			{
-				posPlayer.y = int(startY + 96 * sin(3.14159f * jumpAngle / 180.f));
+				posPlayer.y = int(startY +(4 + 96 )* sin(3.14159f * jumpAngle / 180.f));
 				if (jumpAngle > 90)
 					bJumping = !map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y);
 				else
@@ -149,6 +151,7 @@ void Player::update(int deltaTime)
 		{
 			posPlayer.y -= FALL_STEP;
 
+
 			if (map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
@@ -162,6 +165,7 @@ void Player::update(int deltaTime)
 		else
 		{
 			posPlayer.y += FALL_STEP;
+
 			if (map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
@@ -202,9 +206,9 @@ void Player::render_inv_y()
 	//lookAtRight = !lookAtRight;
 }
 
-void Player::setTileMap(TileMap* tileMap)
+void Player::setCollEngine(CollisionEngine* colis)
 {
-	map = tileMap;
+	col = colis;
 }
 
 void Player::setPosition(const glm::vec2& pos)

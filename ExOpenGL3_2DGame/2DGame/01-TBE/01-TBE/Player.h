@@ -3,7 +3,7 @@
 
 
 #include "Sprite.h"
-#include "TileMap.h"
+#include "CollisionEngine.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -19,7 +19,7 @@ public:
 	void render();
 	void render_inv_y();
 
-	void setTileMap(TileMap* tileMap);
+	void setCollEngine(CollisionEngine* colis);
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition();
 private:
@@ -30,7 +30,7 @@ private:
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite* sprite;
-	TileMap* map;
+	CollisionEngine* col;
 
 };
 

@@ -11,27 +11,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Barrier.cpp" />
+    <ClCompile Include="BarrierOpener.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="CollisionEngine.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectsController.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Sea.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Spikes.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
+    <ClInclude Include="Barrier.h" />
+    <ClInclude Include="BarrierOpener.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="CollisionEngine.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectsController.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sea.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Spikes.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Star.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileMap.h" />
   </ItemGroup>
