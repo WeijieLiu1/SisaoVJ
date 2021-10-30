@@ -72,7 +72,7 @@ void Player::update(int deltaTime)
 			
 		posPlayer.x -= 2;
 
-		if (map->collisionMoveLeft(posPlayer, sizePlayer))
+		if (col->collisionMoveLeft(posPlayer, sizePlayer))
 		{
 			posPlayer.x += 2;
 			//sprite->changeAnimation(STAND_LEFT);
@@ -86,7 +86,7 @@ void Player::update(int deltaTime)
 		}
 		posPlayer.x += 2;
 
-		if (map->collisionMoveRight(posPlayer, sizePlayer))
+		if (col->collisionMoveRight(posPlayer, sizePlayer))
 		{
 			posPlayer.x -= 2;
 			//sprite->changeAnimation(STAND_RIGHT);
@@ -125,10 +125,10 @@ void Player::update(int deltaTime)
 			{
 				posPlayer.y = int(startY +(4 + 96 )* sin(3.14159f * jumpAngle / 180.f));
 				if (jumpAngle > 90)
-					bJumping = !map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y);
+					bJumping = !col->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y);
 				else
 				{
-					if (map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
+					if (col->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
 						bJumping = false;
 				}
 			}
@@ -136,11 +136,15 @@ void Player::update(int deltaTime)
 			{
 				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 				if (jumpAngle > 90)
-					bJumping = !map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y);
+					bJumping = !col->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y);
 				else
 				{
-					if (map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
+					if (col->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
+					{
+
 						bJumping = false;
+					}
+
 				}
 			}
 		}
@@ -152,13 +156,19 @@ void Player::update(int deltaTime)
 			posPlayer.y -= FALL_STEP;
 
 
-			if (map->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
+			if (col->collisionMoveUp(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{
-					bJumping = true;
-					jumpAngle = 0;
-					startY = posPlayer.y;
+					posPlayer.y++;
+					int nothing = posPlayer.y; //We don't want the collision to move the carachter, since we have already checked the downward collisions
+					if (!col->collisionMoveDown(posPlayer, sizePlayer, &nothing))
+					{
+						posPlayer.y--;
+						bJumping = true;
+						jumpAngle = 0;
+						startY = posPlayer.y;
+					}
 				}
 			}
 		}
@@ -166,13 +176,20 @@ void Player::update(int deltaTime)
 		{
 			posPlayer.y += FALL_STEP;
 
-			if (map->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
+			if (col->collisionMoveDown(posPlayer, sizePlayer, &posPlayer.y))
 			{
 				if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 				{
-					bJumping = true;
-					jumpAngle = 0;
-					startY = posPlayer.y;
+					posPlayer.y--;
+					int nothing = posPlayer.y; //We don't want the collision to move the carachter
+					if (!col->collisionMoveUp(posPlayer, sizePlayer, &nothing))
+					{
+
+						posPlayer.y++;
+						bJumping = true;
+						jumpAngle = 0;
+						startY = posPlayer.y;
+					}
 				}
 			}
 		}

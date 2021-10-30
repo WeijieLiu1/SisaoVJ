@@ -30,12 +30,11 @@ void Scene::init(int levelNum)
 	collisionengine = new CollisionEngine();
 
 	objectsController = new ObjectsController();
-	Spikes* sp = new Spikes(glm::ivec2(192, 128), texProgram,3);
+	Spikes* sp = new Spikes(glm::ivec2(224, 128), texProgram,3);
 	objectsController->addObject(sp);
-	Spikes* sp2 = new Spikes(glm::ivec2(576, 256), texProgram,3);
-	//objectsController->addObject(sp2);
-	Box* sp3 = new Box(glm::ivec2(200, 64), texProgram);
-	
+	Box* sp2 = new Box(glm::ivec2(192, 32), texProgram);
+	objectsController->addObject(sp2);
+	Box* sp3 = new Box(glm::ivec2(356, 128), texProgram);
 	objectsController->addObject(sp3);
 	Star* st1 = new Star(glm::ivec2(256, 320), texProgram, true);
 	objectsController->addObject(st1);
@@ -50,6 +49,7 @@ void Scene::init(int levelNum)
 	else map = TileMap::createTileMap("levels/level02.txt", glm::vec2(0,0), texProgram);
 	collisionengine->setTileMap(map);
 	sp3->setTilemap(map);
+	sp2->setTilemap(map);
 	objectsController->setTileSize(map->getTileSize());
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -59,7 +59,7 @@ void Scene::init(int levelNum)
 	playerInv->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, true);
 	playerInv->setPosition(glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize(), INIT_INV_PLAYER_Y_TILES * map->getTileSize()));
 
-	playerInv->setTileMap(map);
+	//playerInv->setTileMap(map);
 	//projection = glm::ortho(-float(CAMERA_WIDTH - 1 + 320), float(CAMERA_WIDTH - 1+320), float(CAMERA_HEIGHT - 1+320), -float(CAMERA_HEIGHT - 1 + 320));
 	projection = glm::ortho(0.f, float(CAMERA_WIDTH - 1 + 32), float(CAMERA_HEIGHT - 1 + 32), 0.f);
 	playerInv->setCollEngine(collisionengine);
@@ -75,7 +75,6 @@ void Scene::update(int deltaTime)
 	EventQueue aux = objectsController->update(deltaTime);
 	player->update(deltaTime);
 	playerInv->update(deltaTime);
-	//�ƶ�����
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
 	if (player->getPosition().x - camOffset.x < float(CAMERA_WIDTH - 1) / 3) camOffset.x -= 2;
 
@@ -83,6 +82,7 @@ void Scene::update(int deltaTime)
 	{
 		if (aux.queue.front() == EventQueue::playerDead)
 		{
+
 			clearComponents();
 			init(currentLevel);
 		}
@@ -91,6 +91,7 @@ void Scene::update(int deltaTime)
 			clearComponents();
 			init(currentLevel +1);
 		}
+
 		aux.queue.pop();
 	}
 }

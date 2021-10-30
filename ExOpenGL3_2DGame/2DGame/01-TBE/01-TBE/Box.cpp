@@ -26,15 +26,12 @@ EventQueue Box::update(float deltaTime)
 	if (inverse)
 	{
 		position.y -= FALL_STEP;
-
 		til->collisionMoveUp(position, glm::ivec2(32, 32), &position.y);
-
 	}
 	else
 	{
 		position.y += FALL_STEP;
 		til->collisionMoveDown(position, glm::ivec2(32, 32), &position.y);
-
 	}
 
 	sprite->setPosition(position);
@@ -48,5 +45,6 @@ void Box::render()
 }
 bool Box::collided()
 {
+
 	return true;
 }

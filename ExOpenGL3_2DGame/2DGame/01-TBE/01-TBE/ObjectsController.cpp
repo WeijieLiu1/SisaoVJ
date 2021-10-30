@@ -164,7 +164,9 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 		}
 		if (collided && *posY - tileSize * y + size.y <= 6)
 		{
+
 			*posY = newY;
+
 		}
 	}
 	return collided;
