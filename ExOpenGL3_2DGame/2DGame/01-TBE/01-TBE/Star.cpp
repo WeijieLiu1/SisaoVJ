@@ -28,7 +28,8 @@ EventQueue Star::update(float deltaTime)
 }
 void Star::render()
 {
-	sprite->render();
+	if(inverted) sprite->render_inv_y();
+	else sprite->render();
 }
 bool Star::collided(glm::ivec2 source, glm::ivec2 size)
 {

@@ -6,7 +6,7 @@ Box::Box(const glm::ivec2& pos, ShaderProgram& shaderProgram , bool inv)
 {
 	inverse = inv;
 	spritesheet.loadFromFile("images/ObjectsUsed.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.2, 0.2), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(boxSize, glm::vec2(0.2, 0.2), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(1);
 
 	sprite->setAnimationSpeed(0, 8);
@@ -17,7 +17,7 @@ Box::Box(const glm::ivec2& pos, ShaderProgram& shaderProgram , bool inv)
 
 
 	setPosition(pos);
-	setSize(glm::vec2(32, 32));
+	setSize(boxSize);
 }
 bool Box::checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const
 {
@@ -34,7 +34,7 @@ EventQueue Box::update(float deltaTime)
 	if (inverse)
 	{
 		position.y -= FALL_STEP;
-		if (!til->collisionMoveUp(position, glm::ivec2(32, 32), &position.y))
+		if (!til->collisionMoveUp(position, boxSize, &position.y))
 		{
 			for (int i = 0; i < obToCollide.size(); i++)
 			{
@@ -52,7 +52,7 @@ EventQueue Box::update(float deltaTime)
 	else
 	{
 		position.y += FALL_STEP;
-		if (!til->collisionMoveDown(position, glm::ivec2(32, 32), &position.y))
+		if (!til->collisionMoveDown(position, boxSize, &position.y))
 		{
 			for (int i = 0; i < obToCollide.size(); i++)
 			{
@@ -75,7 +75,8 @@ EventQueue Box::update(float deltaTime)
 }
 void Box::render()
 {
-	sprite->render();
+	if(inverse) sprite->render_inv_y();
+	else sprite->render();
 }
 bool Box::collided(glm::ivec2 source, glm::ivec2 size)
 {
@@ -86,7 +87,7 @@ bool Box::collided(glm::ivec2 source, glm::ivec2 size)
 		if (source.x <= pos.x)
 		{
 			pos.x++;
-			bool a = til->collisionMoveRight(pos, glm::ivec2(32, 32));
+			bool a = til->collisionMoveRight(pos, boxSize);
 			for (int i = 0; i < obToCollide.size() && !a; i++) //We search for objects that are colliding
 			{
 				if (obToCollide[i] != this)
@@ -102,7 +103,7 @@ bool Box::collided(glm::ivec2 source, glm::ivec2 size)
 		else
 		{
 			pos.x--;
-			bool a = til->collisionMoveRight(pos, glm::ivec2(32, 32));
+			bool a = til->collisionMoveLeft(pos, boxSize);
 			for (int i = 0; i < obToCollide.size() && !a; i++)
 			{
 				if (obToCollide[i] != this)

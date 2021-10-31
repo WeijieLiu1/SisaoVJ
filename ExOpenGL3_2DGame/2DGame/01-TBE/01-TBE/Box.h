@@ -5,11 +5,13 @@
 
 class Box : public Object
 {
+private:
 	Texture spritesheet;
 	Sprite* sprite;
 	bool haveCollided = false;
 	bool inverse;
 	std::vector<Object*> obToCollide;
+	glm::vec2 boxSize = glm::vec2(32, 32);
 public:
 	Box(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool in = false);
 	bool checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const;
