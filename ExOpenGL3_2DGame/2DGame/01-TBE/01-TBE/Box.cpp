@@ -86,33 +86,34 @@ bool Box::collided(glm::ivec2 source, glm::ivec2 size)
 		if (source.x <= pos.x)
 		{
 			pos.x++;
-			til->collisionMoveRight(pos, glm::ivec2(32, 32));
-			for (int i = 0; i < obToCollide.size(); i++)
+			bool a = til->collisionMoveRight(pos, glm::ivec2(32, 32));
+			for (int i = 0; i < obToCollide.size() && !a; i++) //We search for objects that are colliding
 			{
 				if (obToCollide[i] != this)
 				{
-					bool a = checkCollidedy(pos, size, obToCollide[i]->getPosition(), obToCollide[i]->getSize());
-					if (a)
-					{
-						pos.x--;
-					}
+					a = a || checkCollidedy(pos, size, obToCollide[i]->getPosition(), obToCollide[i]->getSize());
 				}
+			}
+			if (a)
+			{
+				pos.x--;
 			}
 		}
 		else
 		{
 			pos.x--;
-			til->collisionMoveRight(pos, glm::ivec2(32, 32));
-			for (int i = 0; i < obToCollide.size(); i++)
+			bool a = til->collisionMoveRight(pos, glm::ivec2(32, 32));
+			for (int i = 0; i < obToCollide.size() && !a; i++)
 			{
 				if (obToCollide[i] != this)
 				{
-					bool a = checkCollidedy(pos, size, obToCollide[i]->getPosition(), obToCollide[i]->getSize());
-					if (a)
-					{
-						pos.x++;
-					}
+					a = a || checkCollidedy(pos, size, obToCollide[i]->getPosition(), obToCollide[i]->getSize());
+					
 				}
+			}
+			if (a)
+			{
+				pos.x++;
 			}
 		}
 	}

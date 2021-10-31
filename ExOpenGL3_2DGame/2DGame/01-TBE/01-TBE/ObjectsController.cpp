@@ -153,7 +153,7 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 
 	for (int x = x0; x <= x1; x++)
 	{
-		int newY = 0;
+		int newY = pos.y+size.y;
 		int objSize = sceneObjects.size();
 		for (int i = 0; i < objSize; ++i)
 		{
@@ -163,8 +163,9 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 			{
 
 				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
-				if (aux && posObj.y - sizObj.y > newY) newY = posObj.y - (sizObj.y);
+				if (aux && posObj.y - sizObj.y < newY) newY = posObj.y - (size.y);
 				collided = collided || aux;
+
 			}
 		}
 		if (collided && *posY - tileSize * y + size.y <= 6)
