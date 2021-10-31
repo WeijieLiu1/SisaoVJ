@@ -7,15 +7,13 @@ class Barrier : public Object
 {
 	Texture spritesheet;
 	Sprite* sprite;
-	glm::ivec2 position;
-	int orientation = 0;
-	bool haveCollided = false;
+	bool opened = false;
 public:
-	Barrier(const glm::ivec2& pos, ShaderProgram& shaderProgram, int or = 0);
+	Barrier(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	EventQueue update(float deltaTime) override;
 	void render() override;
 	bool collided(glm::ivec2 source, glm::ivec2 size) override;
-
+	void open();
 };
 
 #endif

@@ -1,21 +1,20 @@
 #ifndef _BAROPENER_INCLUDE
 #define _BAROPENER_INCLUDE
 
-#include "Object.h"
+#include "Barrier.h"
 
 class BarrierOpener : public Object
 {
 	Texture spritesheet;
 	Sprite* sprite;
 	glm::ivec2 position;
-	int orientation = 0;
-	bool haveCollided = false;
+	Barrier* barrierToOpen;
+	bool opened = false;
 public:
-	BarrierOpener(const glm::ivec2& pos, ShaderProgram& shaderProgram, int or = 0);
+	BarrierOpener(const glm::ivec2& pos, ShaderProgram& shaderProgram, Barrier* bTO);
 	EventQueue update(float deltaTime) override;
 	void render() override;
 	bool collided(glm::ivec2 source, glm::ivec2 size) override;
-
 };
 
 #endif
