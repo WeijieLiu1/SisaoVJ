@@ -34,7 +34,8 @@ public:
 	void init(int levelNum = 0);
 	void update(int deltaTime);
 	void render();
-
+	void switchGodMode();
+	void openBarriers();
 private:
 	void initShaders();
 	void clearComponents();
@@ -49,7 +50,8 @@ private:
 	glm::mat4 projection;
 	glm::vec2 camOffset;
 	int currentLevel = 0;
-
+	bool godMode = false;
+	std::vector<Barrier*> barriers;
 };
 
 

@@ -25,6 +25,7 @@ Scene::~Scene()
 
 void Scene::init(int levelNum)
 {
+	clearComponents();
 	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
@@ -44,6 +45,7 @@ void Scene::init(int levelNum)
 	objectsController->addObject(st2);
 	Barrier* b1 = new Barrier(glm::ivec2(416, 128), texProgram);
 	objectsController->addObject(b1);
+	barriers.push_back(b1);
 	BarrierOpener* bo1 = new BarrierOpener(glm::ivec2(256, 192), texProgram, b1);
 	objectsController->addObject(bo1);
 	Sea* sea = new Sea(glm::ivec2(-INT_MAX/4, 240), texProgram);
@@ -88,14 +90,12 @@ void Scene::update(int deltaTime)
 
 	while (!aux.queue.empty())
 	{
-		if (aux.queue.front() == EventQueue::playerDead)
+		if (aux.queue.front() == EventQueue::playerDead && !godMode)
 		{
-			clearComponents();
 			init(currentLevel);
 		}
 		else if (aux.queue.front() == EventQueue::levelCompleted)
 		{
-			clearComponents();
 			init(currentLevel +1);
 		}
 
@@ -159,4 +159,14 @@ void Scene::clearComponents()
 	if (playerInv != NULL) delete playerInv;
 	if (objectsController != NULL) delete objectsController;
 }
-
+void Scene::switchGodMode()
+{
+	godMode = !godMode;
+}
+void Scene::openBarriers()
+{
+	for (int i = 0; i < barriers.size(); i++)
+	{
+		barriers[i]->open();
+	}
+}

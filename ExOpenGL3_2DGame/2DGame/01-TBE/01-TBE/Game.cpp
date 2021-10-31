@@ -27,6 +27,12 @@ void Game::keyPressed(int key)
 {
 	if(key == 27) // Escape code
 		bPlay = false;
+	else if (key == 'g')
+		scene.switchGodMode();
+	else if (key == 'b')
+		scene.openBarriers();
+	else if (key == '0') scene.init(0);
+	else if (key == '1') scene.init(1);
 	keys[key] = true;
 }
 

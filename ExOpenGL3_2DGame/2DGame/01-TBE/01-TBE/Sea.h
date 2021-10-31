@@ -6,6 +6,8 @@
 class Sea : public Object
 {
 	bool haveCollided = false;
+	Texture spritesheet;
+	Sprite* sprite;
 public:
 	Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	EventQueue update(float deltaTime) override;
