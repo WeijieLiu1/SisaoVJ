@@ -78,7 +78,7 @@ void Sprite::render_inv_x() const
 	//modelview = glm::translate(glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f)), glm::vec3(-Player_xSpriteSize/2, 0.0f, 0.0f));
 	//modelview = glm::translate(modelview, glm::vec3(-position.x, -position.y, 0.f));
 	modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
-	//¸ÄÎª32/2ºó²»ÔÙË²ÒÆ
+	//æ”¹ä¸º32/2åä¸å†ç¬ç§»
 	modelview = glm::translate(modelview, glm::vec3(-24, 0, 0.f));
 	//rotate
 
@@ -121,7 +121,7 @@ void Sprite::render_inv_xy() const
 	//modelview = glm::translate(glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f)), glm::vec3(-Player_xSpriteSize/2, 0.0f, 0.0f));
 	//modelview = glm::translate(modelview, glm::vec3(-position.x, -position.y, 0.f));
 	modelview = glm::scale(modelview, glm::vec3(-1.0f, -1.0f, 1.0f));
-	//¸ÄÎª32/2ºó²»ÔÙË²ÒÆ
+	//æ”¹ä¸º32/2åä¸å†ç¬ç§»
 	modelview = glm::translate(modelview, glm::vec3(-24 , 0, 0.f));
 	//rotate
 
