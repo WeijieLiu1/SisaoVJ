@@ -96,7 +96,7 @@ void Sprite::render_inv_x() const
 
 void Sprite::render_inv_y() const
 {
-	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
+	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y+32, 0.f));
 	//rotate
 	//modelview = glm::rotate(modelview, 3.1415f, glm::vec3(0.f, 0.f, 1.f));
 	modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
@@ -117,7 +117,7 @@ void Sprite::render_inv_y() const
 void Sprite::render_inv_xy() const
 {
 	glm::mat4 modelview = glm::mat4(1.0f);
-	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y+32, 0.f));
 	//modelview = glm::translate(glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f)), glm::vec3(-Player_xSpriteSize/2, 0.0f, 0.0f));
 	//modelview = glm::translate(modelview, glm::vec3(-position.x, -position.y, 0.f));
 	modelview = glm::scale(modelview, glm::vec3(-1.0f, -1.0f, 1.0f));
