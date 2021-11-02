@@ -10,6 +10,7 @@ class Star : public Object
 	glm::ivec2 position;
 	bool haveCollided = false;
 	bool inverted = false;
+	int animTimer = -1;
 public:
 	Star(const glm::ivec2& pos, ShaderProgram& shaderProgram, bool inv);
 	EventQueue update(float deltaTime) override;

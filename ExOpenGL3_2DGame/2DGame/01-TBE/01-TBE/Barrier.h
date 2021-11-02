@@ -8,6 +8,7 @@ class Barrier : public Object
 	Texture spritesheet;
 	Sprite* sprite;
 	bool opened = false;
+	int animTimer = -1;
 public:
 	Barrier(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	EventQueue update(float deltaTime) override;

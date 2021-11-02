@@ -4,7 +4,7 @@
 class EventQueue
 {
 public:
-	enum eventType {playerDead, levelCompleted, invertedStarOver, StarOver};
+	enum eventType {playerDead,RestartLevel, levelCompleted, invertedStarOver, StarOver};
 	std::queue<eventType> queue;
 };
 #endif

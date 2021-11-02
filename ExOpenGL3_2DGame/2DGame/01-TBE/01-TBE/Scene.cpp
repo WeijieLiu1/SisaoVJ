@@ -33,8 +33,8 @@ void Scene::init(int levelNum)
 	objectsController = new ObjectsController();
 	Spikes* sp = new Spikes(glm::ivec2(224, 128), texProgram,3);
 	objectsController->addObject(sp);
-	//Spikes* sk = new Spikes(glm::ivec2(224, 320), texProgram, 0);
-	//objectsController->addObject(sk);
+	Spikes* sk = new Spikes(glm::ivec2(320, 192), texProgram, 2);
+	objectsController->addObject(sk);
 	//Box* sp1 = new Box(glm::ivec2(288, 320), texProgram, true);
 	//objectsController->addObject(sp1);
 	Box* sp2 = new Box(glm::ivec2(192, 320), texProgram,true);
@@ -45,7 +45,7 @@ void Scene::init(int levelNum)
 	objectsController->addObject(st1);
 	Star* st2 = new Star(glm::ivec2(256, 128), texProgram, false);
 	objectsController->addObject(st2);
-	Barrier* b1 = new Barrier(glm::ivec2(416, 320), texProgram);
+	Barrier* b1 = new Barrier(glm::ivec2(416, 96), texProgram);
 	objectsController->addObject(b1);
 	barriers.push_back(b1);
 	BarrierOpener* bo1 = new BarrierOpener(glm::ivec2(256, 192), texProgram, b1);
@@ -85,14 +85,30 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	map->update(deltaTime);
 	EventQueue aux = objectsController->update(deltaTime);
-	player->update(deltaTime);
-	playerInv->update(deltaTime);
+	EventQueue aux2 = player->update(deltaTime);
+	while (!aux2.queue.empty())
+	{
+		aux.queue.push(aux2.queue.front());
+		aux2.queue.pop();
+	}
+	aux2 = playerInv->update(deltaTime);
+	while (!aux2.queue.empty())
+	{
+		aux.queue.push(aux2.queue.front());
+		aux2.queue.pop();
+	}
 	if (player->getPosition().x - camOffset.x > float(CAMERA_WIDTH - 1)*2/3) camOffset.x += 2;
 	if (player->getPosition().x - camOffset.x < float(CAMERA_WIDTH - 1) / 3) camOffset.x -= 2;
 
 	while (!aux.queue.empty())
 	{
 		if (aux.queue.front() == EventQueue::playerDead && !godMode)
+		{
+			//init(currentLevel);
+			player->kill();
+			playerInv->kill();
+		}
+		else if (aux.queue.front() == EventQueue::RestartLevel)
 		{
 			init(currentLevel);
 		}

@@ -53,6 +53,7 @@ private:
 	bool godMode = false;
 	std::vector<Barrier*> barriers;
 	Sea* sea;
+	float finishTimer;
 };
 
 

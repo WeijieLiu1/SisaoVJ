@@ -4,6 +4,7 @@
 
 #include "Sprite.h"
 #include "CollisionEngine.h"
+#include "EventQueue.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -15,12 +16,13 @@ class Player
 
 public:
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, bool inv = false);
-	void update(int deltaTime);
+	EventQueue update(int deltaTime);
 	void render();
 	void render_inv_y();
 
 	void setCollEngine(CollisionEngine* colis);
 	void setPosition(const glm::vec2& pos);
+	void kill();
 	glm::vec2 getPosition();
 private:
 	bool lookAtRight = true;
@@ -31,7 +33,8 @@ private:
 	Texture spritesheet;
 	Sprite* sprite;
 	CollisionEngine* col;
-
+	bool alive = true;
+	float deathAnimTimer = 0;
 };
 
 
