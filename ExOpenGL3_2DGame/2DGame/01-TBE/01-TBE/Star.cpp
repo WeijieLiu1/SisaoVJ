@@ -23,6 +23,7 @@ EventQueue Star::update(float deltaTime)
 	{
 		if(inverted) ret.queue.push(ret.invertedStarOver);
 		else ret.queue.push(ret.StarOver);
+		haveCollided = false;
 	}
 	return ret;
 }

@@ -52,6 +52,7 @@ private:
 	int currentLevel = 0;
 	bool godMode = false;
 	std::vector<Barrier*> barriers;
+	Sea* sea;
 };
 
 

@@ -13,6 +13,6 @@ void main()
 	vec4 texColor = texture(tex, texCoordFrag);
 	if(texColor.a < 0.5f)
 		discard;
-	outColor = texColor;
+	outColor = color * texColor;
 }
 

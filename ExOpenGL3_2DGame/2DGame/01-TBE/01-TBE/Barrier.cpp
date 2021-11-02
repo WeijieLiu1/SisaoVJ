@@ -12,7 +12,7 @@ Barrier::Barrier(const glm::ivec2& pos, ShaderProgram& shaderProgram )
 	sprite->setPosition(glm::vec2(float(pos.x + position.x), float(pos.y + position.y)));
 
 	setPosition(pos);
-	setSize(glm::vec2(32, 63));
+	setSize(glm::vec2(32, 64));
 }
 
 EventQueue Barrier::update(float deltaTime)
@@ -32,7 +32,7 @@ bool Barrier::collided(glm::ivec2 source, glm::ivec2 size)
 
 void Barrier::open()
 {
-	setSize(glm::ivec2(0,0));
+	setSize(glm::ivec2(-INT_MAX,0));
 	opened = true;
 }
 

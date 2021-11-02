@@ -45,12 +45,12 @@ void Scene::init(int levelNum)
 	objectsController->addObject(st1);
 	Star* st2 = new Star(glm::ivec2(256, 128), texProgram, false);
 	objectsController->addObject(st2);
-	Barrier* b1 = new Barrier(glm::ivec2(416, 128), texProgram);
+	Barrier* b1 = new Barrier(glm::ivec2(416, 320), texProgram);
 	objectsController->addObject(b1);
 	barriers.push_back(b1);
 	BarrierOpener* bo1 = new BarrierOpener(glm::ivec2(256, 192), texProgram, b1);
 	objectsController->addObject(bo1);
-	Sea* sea = new Sea(glm::ivec2(-INT_MAX/4, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), texProgram);
 	objectsController->addObject(sea);
 
 	collisionengine->setObjectsController(objectsController);
@@ -121,6 +121,7 @@ void Scene::render()
 	objectsController->render();
 	player->render();
 	playerInv->render_inv_y();
+	sea->lateRender();
 }
 
 void Scene::initShaders()

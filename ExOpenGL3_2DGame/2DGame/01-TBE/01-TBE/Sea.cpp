@@ -6,8 +6,8 @@ Sea::Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram)
 
 	spritesheet.loadFromFile("images/sea.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spritesheet.setWrapS(GL_REPEAT);
-	spritesheet.setWrapT(GL_REPEAT);
-	sprite = Sprite::createSprite(glm::ivec2(INT_MAX, 45), glm::vec2(1, 1), &spritesheet, &shaderProgram);
+	spritesheet.setWrapT(GL_CLAMP_TO_EDGE);
+	sprite = Sprite::createSprite(glm::ivec2(INT_MAX, 450), glm::vec2(INT_MAX/480, 10), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(1);
 
 	sprite->setAnimationSpeed(0, 8);
@@ -25,10 +25,14 @@ EventQueue Sea::update(float deltaTime)
 }
 void Sea::render()
 {
-	//sprite->render();
+}
+void Sea::lateRender()
+{
+	sprite->render();
 }
 bool Sea::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	haveCollided = true;
+
 	return true; //Is solid
 }

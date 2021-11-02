@@ -13,7 +13,7 @@ bool ObjectsController::checkCollidedx(const glm::vec2 pos1, const glm::vec2 siz
 bool ObjectsController::checkCollidedy(const glm::vec2 pos1, const glm::vec2 size1, const glm::vec2 pos2, const glm::vec2 size2) const
 {
 	// collision x-axis?
-	bool collisionX = pos1.x + size1.x >= pos2.x && pos2.x + size2.x >= pos1.x;
+	bool collisionX = pos1.x + size1.x > pos2.x && pos2.x + size2.x > pos1.x;
 	// collision y-axis?
 	bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
 	// collision only if on both axes
@@ -144,16 +144,10 @@ bool ObjectsController::collisionMoveRight(const glm::ivec2& pos, const glm::ive
 
 bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
 {
-	int x0, x1, y;
-
-	x0 = pos.x +1;
-	x1 = (pos.x + size.x - 1);
-	y = (pos.y + size.y - 1);
 	bool collided = false;
 
-	for (int x = x0; x <= x1; x++)
-	{
-		int newY = pos.y+size.y;
+	
+		int newY = pos.y;
 		int objSize = sceneObjects.size();
 		for (int i = 0; i < objSize; ++i)
 		{
@@ -161,55 +155,45 @@ bool ObjectsController::collisionMoveDown(const glm::ivec2& pos, const glm::ivec
 			glm::vec2 sizObj = sceneObjects[i]->getSize();
 			if (checkCollidedy(pos, size, posObj, sizObj))
 			{
-
 				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
-				if (aux && posObj.y - sizObj.y < newY) newY = posObj.y - (size.y);
+				if (aux && posObj.y - size.y < newY && posObj.y - (size.y) >pos.y-6) 
+					newY = posObj.y - (size.y) ;
+
 				collided = collided || aux;
 
 			}
 		}
-		if (collided && *posY - tileSize * y + size.y <= 6)
+		if (collided  )
 		{
 
 			*posY = newY;
 
 		}
-	}
+	
 	return collided;
 }
 
 bool ObjectsController::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int* posY) const
 {
-	int x0, x1, y;
-
-	x0 = pos.x;
-	x1 = (pos.x + size.x - 1);
-	y = pos.y;
 	bool collided = false;
-	for (int x = x0; x <= x1; x++)
+	int newY = pos.y;
+	int objSize = sceneObjects.size();
+	for (int i = 0; i < objSize; ++i)
 	{
-		int newY = 0;
-		int objSize = sceneObjects.size();
-		for (int i = 0; i < objSize; ++i)
+		auto posObj = sceneObjects[i]->getPosition();
+		glm::vec2 sizObj = sceneObjects[i]->getSize();
+		if (checkCollidedy(pos, size, posObj, sizObj))
 		{
-			auto posObj = sceneObjects[i]->getPosition();
+			bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
+			if (aux && posObj.y + sizObj.y > newY && posObj.y + sizObj.y < pos.y + 6) newY = posObj.y + (sizObj.y);
+			collided = collided || aux;
 
-			glm::vec2 sizObj = sceneObjects[i]->getSize();
-			if (posObj == glm::vec2(0, 144))
-			{
-				auto a = posObj;
-			}
-			if (checkCollidedy(pos, size, posObj, sizObj))
-			{
-				bool aux = sceneObjects[i]->collided(pos, size); //This must be here to ensure that the method gets called
-				if (aux && posObj.y + sizObj.y > newY) newY = posObj.y + (sizObj.y);
-				collided = collided || aux;
-			}
 		}
-		if (collided && *posY - tileSize * y - size.y <= 6)
-		{
-			*posY = newY;
-		}
+	}
+	if (collided )
+	{
+
+		*posY = newY;
 	}
 	return collided;
 }
