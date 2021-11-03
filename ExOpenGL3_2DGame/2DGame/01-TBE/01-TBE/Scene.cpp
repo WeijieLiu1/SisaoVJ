@@ -15,6 +15,7 @@ Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
+	soundEngine = irrklang::createIrrKlangDevice();
 }
 
 Scene::~Scene()
@@ -26,6 +27,7 @@ Scene::~Scene()
 void Scene::init(int levelNum)
 {
 	clearComponents();
+	soundEngine->play2D("sounds/inflatableIsland.wav", true);
 	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
@@ -187,6 +189,7 @@ void Scene::clearComponents()
 	if (player != NULL) delete player;
 	if (playerInv != NULL) delete playerInv;
 	if (objectsController != NULL) delete objectsController;
+	soundEngine->stopAllSounds();
 }
 void Scene::switchGodMode()
 {

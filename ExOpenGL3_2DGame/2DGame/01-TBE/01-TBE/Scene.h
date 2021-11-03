@@ -3,6 +3,7 @@
 
 
 #include <glm/glm.hpp>
+#include <irrKlang.h>
 #include "ShaderProgram.h"
 #include "EventQueue.h"
 #include "TileMap.h"
@@ -16,6 +17,7 @@
 #include "Barrier.h"
 #include "BarrierOpener.h"
 #include "Box.h"
+
 
 #define CAMERA_WIDTH 640
 #define CAMERA_HEIGHT 480
@@ -41,6 +43,7 @@ private:
 	void initShaders();
 	void clearComponents();
 private:
+	irrklang::ISoundEngine* soundEngine;
 	TileMap *map;
 	ObjectsController *objectsController;
 	CollisionEngine* collisionengine;
