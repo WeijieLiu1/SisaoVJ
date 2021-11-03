@@ -229,6 +229,13 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 	posLocation = program.bindVertexAttribute("position", 2, 4*sizeof(float), 0);
 	texCoordLocation = program.bindVertexAttribute("texCoord", 2, 4*sizeof(float), (void *)(2*sizeof(float)));
 }
+
+
+int TileMap::getTileSize() const { return tileSize; }
+glm::vec2 TileMap::getMapSize() const { return mapSize; }
+
+
+
 // Collision tests for axis aligned bounding boxes.
 // Method collisionMoveDown also corrects Y coordinate if the box is
 // already intersecting a tile below.

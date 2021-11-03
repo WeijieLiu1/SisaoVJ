@@ -61,8 +61,14 @@ void Scene::init(int levelNum)
 	sp3->setTilemap(map);
 	sp2->setTilemap(map);
 	objectsController->setTileSize(map->getTileSize());
+	int tileSize = map->getTileSize();
+	glm::vec2 auxSize = glm::vec2(map->getMapSize().x* tileSize + 320, map->getMapSize().y / 2*tileSize);
+	sky = new Sky(glm::ivec2(-320,0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize-33), auxSize, texProgram, true);
+
 	sp2->setObjectsToCollide(objectsController->getAllObjects());
 	sp3->setObjectsToCollide(objectsController->getAllObjects());
+
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -83,6 +89,8 @@ void Scene::init(int levelNum)
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
+	sky->update(deltaTime);
+	skyInv->update(deltaTime);
 	map->update(deltaTime);
 	EventQueue aux = objectsController->update(deltaTime);
 	EventQueue aux2 = player->update(deltaTime);
@@ -123,6 +131,8 @@ void Scene::update(int deltaTime)
 
 void Scene::render()
 {
+	sky->render();
+	skyInv->render();
 	glm::mat4 modelview = glm::mat4(1.0f);;
 	//modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
 	texProgram.use();

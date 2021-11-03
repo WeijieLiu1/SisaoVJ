@@ -24,6 +24,7 @@
     <ClCompile Include="Sea.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Spikes.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Star.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Sea.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Sky.h" />
     <ClInclude Include="Spikes.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Star.h" />

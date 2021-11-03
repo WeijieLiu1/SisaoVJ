@@ -84,6 +84,9 @@
     <ClCompile Include="Barrier.cpp">
       <Filter>Archivos de código fuente\MapObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Sky.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>Archivos de encabezado\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

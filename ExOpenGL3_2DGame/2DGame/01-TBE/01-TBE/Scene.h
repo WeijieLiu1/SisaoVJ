@@ -7,6 +7,7 @@
 #include "EventQueue.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "Sky.h"
 #include "ObjectsController.h"
 #include "Object.h"
 #include "Spikes.h"
@@ -45,6 +46,8 @@ private:
 	CollisionEngine* collisionengine;
 	Player* player;
 	Player* playerInv;
+	Sky* sky;
+	Sky* skyInv;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
