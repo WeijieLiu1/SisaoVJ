@@ -59,8 +59,16 @@ void Spikes::render()
 }
 bool Spikes::collided(glm::ivec2 source, glm::ivec2 size)
 {
+	if (!haveCollided && soundEngine != NULL)
+	{
+		soundEngine->stopAllSounds();
+		soundEngine->play2D("sounds/SFXSpike.wav", false);
+	}
 	haveCollided = true;
 	return true;
 }
-
+void Spikes::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
+}
 

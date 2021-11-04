@@ -32,7 +32,16 @@ void Sea::lateRender()
 }
 bool Sea::collided(glm::ivec2 source, glm::ivec2 size)
 {
+	if (!haveCollided && soundEngine != NULL)
+	{
+		soundEngine->stopAllSounds();
+		soundEngine->play2D("sounds/SFXSea.wav", false);
+	}
 	haveCollided = true;
 
 	return true; //Is solid
+}
+void Sea::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
 }

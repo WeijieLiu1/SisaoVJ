@@ -57,7 +57,6 @@ EventQueue ObjectsController::update(float deltaTime)
 			}
 			aux.queue.pop();
 		}
-		
 	}
 	return ret;
 }

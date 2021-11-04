@@ -35,7 +35,17 @@ bool BarrierOpener::collided(glm::ivec2 source, glm::ivec2 size)
 
 		barrierToOpen->open();
 		sprite->changeAnimation(1);
+		if (soundEngine != NULL)
+		{
+		//	soundEngine->stopAllSounds();
+			soundEngine->play2D("sounds/SFXDoor.wav", false);
+		}
 	}
 	opened = true;
 	return false; //Is not a solid
 }
+void BarrierOpener::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
+}
+

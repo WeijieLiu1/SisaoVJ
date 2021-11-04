@@ -42,6 +42,8 @@ public:
 private:
 	void initShaders();
 	void clearComponents();
+	void loadLvl0Objects();
+	void loadLvl1Objects();
 private:
 	irrklang::ISoundEngine* soundEngine;
 	TileMap *map;

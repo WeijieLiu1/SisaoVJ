@@ -25,13 +25,13 @@ EventQueue Star::update(float deltaTime)
 	EventQueue ret;
 	if (haveCollided)
 	{
-		
+
 		haveCollided = false;
 
 		if (sprite->animation() != 1) sprite->changeAnimation(1);
-		
-		
+
 	}
+	else playingSound = false;
 	if(animTimer!=-1)animTimer += deltaTime;
 	if (animTimer > 1000)
 	{
@@ -55,5 +55,14 @@ bool Star::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	haveCollided = true;
 	if (animTimer == -1) animTimer = 0;
+	if (!playingSound)
+	{
+		if(soundEngine != NULL)soundEngine->play2D("sounds/SFXStar.wav", false);
+		playingSound = true;
+	}
 	return false; //Is not solid
+}
+void Star::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
 }
