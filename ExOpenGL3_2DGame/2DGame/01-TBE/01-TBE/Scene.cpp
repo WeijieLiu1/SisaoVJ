@@ -7,7 +7,7 @@
 #define SCREEN_Y 0
 
 #define INIT_PLAYER_X_TILES 4
-#define INIT_PLAYER_Y_TILES 6
+#define INIT_PLAYER_Y_TILES 4
 
 #define INIT_INV_PLAYER_X_TILES 4
 #define INIT_INV_PLAYER_Y_TILES 12
@@ -28,13 +28,17 @@ Scene::~Scene()
 void Scene::init(int levelNum)
 {
 	clearComponents();
-	soundEngine->play2D("sounds/inflatableIsland.wav", true);
+	//soundEngine->play2D("sounds/inflatableIsland.wav", true);
 	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
 
 	if (currentLevel == 0)loadLvl0Objects();
-	else loadLvl1Objects();
+	else if(currentLevel == 1) loadLvl1Objects();
+	else if(currentLevel == 2) loadLvl2Objects();
+	else if(currentLevel == 3) loadLvl2Objects();
+	else if(currentLevel == 4) loadLvl2Objects();
+	else if(currentLevel == 5) loadLvl2Objects();
 
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -194,7 +198,7 @@ void Scene::loadLvl0Objects()
 
 	collisionengine->setObjectsController(objectsController);
 
-	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0, 0), texProgram);
+	map = TileMap::createTileMap("levels/level00.txt", glm::vec2(0, 0), texProgram);
 	collisionengine->setTileMap(map);
 	sp3->setTilemap(map);
 	sp2->setTilemap(map);
@@ -212,12 +216,37 @@ void Scene::loadLvl0Objects()
 void Scene::loadLvl1Objects()
 {
 	objectsController = new ObjectsController();
-	Star* st1 = new Star(glm::ivec2(256, 352), texProgram, true);
+	Star* st1 = new Star(glm::ivec2(576, 352), texProgram, true);
 	objectsController->addObject(st1);
 	st1->setSoundEngine(soundEngine);
-	Star* st2 = new Star(glm::ivec2(256, 128), texProgram, false);
+	Star* st2 = new Star(glm::ivec2(576, 128), texProgram, false);
 	objectsController->addObject(st2);
 	st2->setSoundEngine(soundEngine);
+	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	objectsController->addObject(sea);
+	sea->setSoundEngine(soundEngine);
+
+	collisionengine->setObjectsController(objectsController);
+
+	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(0, 0), texProgram);
+	collisionengine->setTileMap(map);
+	objectsController->setTileSize(map->getTileSize());
+	int tileSize = map->getTileSize();
+	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
+	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+
+}
+
+void Scene::loadLvl2Objects()
+{
+	objectsController = new ObjectsController();
+	Star* st1 = new Star(glm::ivec2(576, 352), texProgram, true);
+	objectsController->addObject(st1);
+	//st1->setSoundEngine(soundEngine);
+	Star* st2 = new Star(glm::ivec2(576, 128), texProgram, false);
+	objectsController->addObject(st2);
+	//st2->setSoundEngine(soundEngine);
 	sea = new Sea(glm::ivec2(-500, 240), texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);

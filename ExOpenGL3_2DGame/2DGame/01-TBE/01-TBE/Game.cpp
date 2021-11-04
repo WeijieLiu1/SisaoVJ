@@ -33,6 +33,10 @@ void Game::keyPressed(int key)
 		scene.openBarriers();
 	else if (key == '0') scene.init(0);
 	else if (key == '1') scene.init(1);
+	else if (key == '2') scene.init(2);
+	else if (key == '3') scene.init(3);
+	else if (key == '4') scene.init(4);
+	else if (key == '5') scene.init(5);
 	keys[key] = true;
 }
 

@@ -44,6 +44,7 @@ private:
 	void clearComponents();
 	void loadLvl0Objects();
 	void loadLvl1Objects();
+	void loadLvl2Objects();
 private:
 	irrklang::ISoundEngine* soundEngine;
 	TileMap *map;
