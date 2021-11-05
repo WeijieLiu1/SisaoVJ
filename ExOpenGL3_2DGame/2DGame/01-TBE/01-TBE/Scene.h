@@ -41,10 +41,14 @@ public:
 	void openBarriers();
 private:
 	void initShaders();
+	void checkMinAndMaxCoords();
 	void clearComponents();
 	void loadLvl0Objects();
 	void loadLvl1Objects();
 	void loadLvl2Objects();
+	void loadLvl3Objects();
+	void loadLvl4Objects();
+	void loadLvl5Objects();
 private:
 	irrklang::ISoundEngine* soundEngine;
 	TileMap *map;
@@ -57,12 +61,15 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
-	glm::vec2 camOffset;
+	glm::ivec2 minCoord;
+	glm::ivec2 maxCoord;
 	int currentLevel = 0;
 	bool godMode = false;
 	std::vector<Barrier*> barriers;
 	Sea* sea;
 	float finishTimer;
+	glm::vec2 playerInitPos;
+	glm::vec2 playerInvInitPos;
 };
 
 
