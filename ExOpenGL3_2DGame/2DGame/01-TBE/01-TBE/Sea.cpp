@@ -13,7 +13,7 @@ Sea::Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram)
 	sprite->setAnimationSpeed(0, 8);
 	sprite->addKeyframe(0, glm::vec2(0.f, 0.f));
 	sprite->changeAnimation(0);
-	sprite->setPosition(pos);
+	sprite->setPosition(glm::ivec2(pos.x,pos.y-16));
 }
 
 EventQueue Sea::update(float deltaTime)

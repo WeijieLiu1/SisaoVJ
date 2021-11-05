@@ -28,7 +28,7 @@ Scene::~Scene()
 void Scene::init(int levelNum)
 {
 	clearComponents();
-	//soundEngine->play2D("sounds/inflatableIsland.wav", true);
+	soundEngine->play2D("sounds/inflatableIsland.wav", true);
 	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
@@ -55,8 +55,8 @@ void Scene::init(int levelNum)
 	// 
 	//projection = glm::ortho(-float(CAMERA_WIDTH - 1 + 320), float(CAMERA_WIDTH - 1+320), float(CAMERA_HEIGHT - 1+320), -float(CAMERA_HEIGHT - 1 + 320));
 	checkMinAndMaxCoords();
-	projection = glm::ortho(float(std::max(minCoord.x-15,0)), float(std::max(maxCoord.x,CAMERA_WIDTH - 1)), 
-		float(std::max(maxCoord.y,CAMERA_HEIGHT - 1)), float(std::min(minCoord.y,0)));
+	//projection = glm::ortho(float(std::max(minCoord.x-15,0)), float(std::max(maxCoord.x,CAMERA_WIDTH - 1)), 
+	//	float(std::max(maxCoord.y,CAMERA_HEIGHT - 1)), float(std::min(minCoord.y,0)));
 	currentTime = 0.0f;
 
 
@@ -98,9 +98,7 @@ void Scene::update(int deltaTime)
 		else if (aux.queue.front() == EventQueue::levelCompleted)
 		{
 			init(currentLevel +1);
-
 		}
-
 		aux.queue.pop();
 	}
 }
@@ -113,8 +111,8 @@ void Scene::render()
 	//modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
 	texProgram.use();
 	checkMinAndMaxCoords();
-	projection = glm::ortho(float(std::min(minCoord.x - 15, 0)), float(std::max(maxCoord.x+15, CAMERA_WIDTH - 1)),
-		float(std::max(maxCoord.y+15, CAMERA_HEIGHT - 1)), float(std::min(minCoord.y-15, 0)));
+	projection = glm::ortho(float(zoomOut*(cameraCenter.x - CAMERA_WIDTH/2)), float(zoomOut * (cameraCenter.x + CAMERA_WIDTH / 2)),
+		float(zoomOut * (cameraCenter.y + CAMERA_HEIGHT / 2)), float(zoomOut * (cameraCenter.y - CAMERA_HEIGHT / 2)));
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
 	//modelview = glm::mat4(1.0f);
@@ -161,12 +159,19 @@ void Scene::checkMinAndMaxCoords()
 {
 	auto cor1 = player->getPosition();
 	auto cor2 = playerInv->getPosition();
-	minCoord = cor1;
+	auto minCoord = cor1;
 	if (cor2.x < minCoord.x) minCoord.x = cor2.x;
 	if (cor2.y < minCoord.y) minCoord.y = cor2.y;
-	maxCoord = cor1;
-	if (cor2.x > minCoord.x) minCoord.x = cor2.x;
-	if (cor2.y > minCoord.y) minCoord.y = cor2.y;
+	auto maxCoord = cor1;
+	if (cor2.x > maxCoord.x) maxCoord.x = cor2.x;
+	if (cor2.y > maxCoord.y) maxCoord.y = cor2.y;
+	cameraCenter = glm::vec2((minCoord.x-32 + maxCoord.x) / 2, (minCoord.y + maxCoord.y) / 2);
+	float ratioW = (64+maxCoord.x - minCoord.x)/CAMERA_WIDTH;
+	float ratioH = (maxCoord.y+32 - minCoord.y)/CAMERA_HEIGHT;
+	zoomOut = std::max(ratioH, ratioW);
+	zoomOut = std::max(zoomOut, 1.0f);
+
+	if (zoomOut > 200) zoomOut = 200;
 }
 void Scene::clearComponents()
 {
@@ -414,7 +419,7 @@ void Scene::loadLvl5Objects()
 	objectsController->addObject(sp4);
 
 
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 250), texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 

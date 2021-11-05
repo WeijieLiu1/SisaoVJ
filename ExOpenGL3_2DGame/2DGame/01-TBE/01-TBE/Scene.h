@@ -61,8 +61,10 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
-	glm::ivec2 minCoord;
-	glm::ivec2 maxCoord;
+	//glm::ivec2 minCoord;
+	//glm::ivec2 maxCoord;
+	glm::ivec2 cameraCenter;
+	float zoomOut = 1.0f;
 	int currentLevel = 0;
 	bool godMode = false;
 	std::vector<Barrier*> barriers;
