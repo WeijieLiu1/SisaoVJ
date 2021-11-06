@@ -34,8 +34,9 @@ bool Sea::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	if (!haveCollided && soundEngine != NULL)
 	{
-		soundEngine->stopAllSounds();
-		soundEngine->play2D("sounds/SFXSea.wav", false);
+		soundEngine->setAllSoundsPaused();
+		irrklang::ISound* snd = soundEngine->play2D("sounds/SFXSea.wav", false, false, true);
+		snd->setVolume(2.5f);
 	}
 	haveCollided = true;
 

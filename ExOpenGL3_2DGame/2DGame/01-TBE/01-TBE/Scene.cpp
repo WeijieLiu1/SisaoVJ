@@ -28,7 +28,15 @@ Scene::~Scene()
 void Scene::init(int levelNum)
 {
 	clearComponents();
-	soundEngine->play2D("sounds/inflatableIsland.wav", true);
+	if(!snd) snd = soundEngine->play2D("sounds/inflatableIsland.wav", true, false, true);
+	auto a = snd->getIsPaused();
+	snd->setIsPaused(false);
+	auto b = snd->getIsPaused();
+
+	if (snd)
+	{
+		snd->setVolume(0.5f);
+	}
 	currentLevel = levelNum;
 	initShaders();
 	collisionengine = new CollisionEngine();
@@ -97,6 +105,7 @@ void Scene::update(int deltaTime)
 		}
 		else if (aux.queue.front() == EventQueue::levelCompleted)
 		{
+			if (currentLevel >= 5) currentLevel = 1;
 			init(currentLevel +1);
 		}
 		aux.queue.pop();
@@ -180,7 +189,7 @@ void Scene::clearComponents()
 	if (player != NULL) delete player;
 	if (playerInv != NULL) delete playerInv;
 	if (objectsController != NULL) delete objectsController;
-	soundEngine->stopAllSounds();
+	//soundEngine->stopAllSounds();
 }
 
 void Scene::loadLvl0Objects()

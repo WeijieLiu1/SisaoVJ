@@ -51,6 +51,7 @@ private:
 	void loadLvl5Objects();
 private:
 	irrklang::ISoundEngine* soundEngine;
+	irrklang::ISound* snd;
 	TileMap *map;
 	ObjectsController *objectsController;
 	CollisionEngine* collisionengine;

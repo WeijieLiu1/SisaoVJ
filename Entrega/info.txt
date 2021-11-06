@@ -1,0 +1,49 @@
+INTEGRANTS DEL GRUP
+Weijie Liu: weijie.liu@estudiantat.upc.edu
+Oriol Freixa Dachs: oriol.freixa.dachs@estudiantat.upc.edu
+
+
+FUNCIONALITATS IMPLEMENTADES
+Part BÀSICA
+Cinc nivells superables de manera anàloga al Sisão 
+(movent els dos Sonic fins a les banderes). A més,
+apretant el número 0 es pot anar a un nivell de proves
+que hem fet servir per desenvolupar el joc.
+
+Els dos personatges amb moviment esquerra i dret i salt,
+implementat també de manera anàloga al Sisão (amb colisions
+independents).
+
+Els dos personatges es moren i el nivell es reinicia si un
+cau al mar o toca unes punxes.
+
+Camara centrada entre els dos personatges, amb zoom enfora
+quan aquests es separen massa
+
+Obstacles anàlogs als del Sisão (barreres amb obridors, capses
+i punxes).
+
+Funcionalitats d'immortalitat, eliminació de barreres i salt
+a nivells concrets.
+
+POLISH
+Estructura de 4 Pantalles: menú principal, joc, instruccions i
+crèdits.
+Musica de fons i efectes sonors. Animacions completes del personatge
+
+
+INSTRUCCIONS DEL JOC
+
+L'objectiu del joc és completar 5 nivells. Per completar cada nivell
+és necessari que els dos Sonics estiguin tocant les dues estrelles.
+Aixó es pot aconseguir movent el personatge amb les fletxes del teclat
+(dreta i esquerra per moure's en la direcció pertinent i amunt per saltar).
+Compte, en el mapa es poden trobar 3 tipus d'obstacles:
+ - Caixes: Es poden arrossegar i cauen amb la gravetat.
+ - Punxes: Al tocar-les els sonics moriran i es reiniciarà el nivell.
+ - Barrera: No permet el pas fins que s'obre amb l'obridor corresponent.
+A més, si el sonic de la superfície cau al mar o el reflectit en surt,
+els dos personatges moriràn i es reiniciarà el nivell.
+TRUCS: Amb la tecla "g" s'activa i desactiva la immortalitat, amb la tecla
+"b" es desactiven les barreres i amb els nombres del 0 al 5 es pot saltar
+a un nivell concret.

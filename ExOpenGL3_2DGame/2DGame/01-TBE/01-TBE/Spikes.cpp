@@ -61,7 +61,7 @@ bool Spikes::collided(glm::ivec2 source, glm::ivec2 size)
 {
 	if (!haveCollided && soundEngine != NULL)
 	{
-		soundEngine->stopAllSounds();
+		soundEngine->setAllSoundsPaused();
 		soundEngine->play2D("sounds/SFXSpike.wav", false);
 	}
 	haveCollided = true;
