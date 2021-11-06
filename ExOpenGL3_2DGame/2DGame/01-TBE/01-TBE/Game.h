@@ -37,7 +37,8 @@ public:
 	
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
-
+	bool getSpecialKeyPressed(int key) const;
+	
 private:
 	bool bPlay;                       // Continue to play game?
 	Scene scene;                      // Scene to render

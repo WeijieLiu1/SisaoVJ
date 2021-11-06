@@ -35,20 +35,38 @@ public:
 	~Scene();
 
 	void init(int levelNum = 0);
+
+
+	void initStartMenu();
+	void initStartControls();
+	void initStartPause();
+	void initStartGameover();
+
+	void updateMenu(int deltaTime);
+	void updateControls(int deltaTime);
+	void updatePause(int deltaTime);
+	void updateGameover(int deltaTime);
+
+	void resetCamOffset();
+
 	void update(int deltaTime);
 	void render();
 	void switchGodMode();
 	void openBarriers();
+	string getState();
+	void setState(string newState);
 private:
 	void initShaders();
 	void checkMinAndMaxCoords();
 	void clearComponents();
+
 	void loadLvl0Objects();
 	void loadLvl1Objects();
 	void loadLvl2Objects();
 	void loadLvl3Objects();
 	void loadLvl4Objects();
 	void loadLvl5Objects();
+
 private:
 	irrklang::ISoundEngine* soundEngine;
 	irrklang::ISound* snd;
@@ -71,8 +89,15 @@ private:
 	std::vector<Barrier*> barriers;
 	Sea* sea;
 	float finishTimer;
-	glm::vec2 playerInitPos;
+	int numSelect = 0;
+  glm::vec2 playerInitPos;
 	glm::vec2 playerInvInitPos;
+
+	glm::vec2 iniPosSelectorMenu, iniPosSelectorPause, iniPosSelectorGameover;
+
+	Texture spritesheet, spritesheetSelector, spritesheetControls;
+	Sprite* sprite, *spriteSelector, * spriteControls;
+	string state = "GAMEOVER"; //MENU, CONTROLS, PLAYING, GAMEOVER, PAUSE
 };
 
 

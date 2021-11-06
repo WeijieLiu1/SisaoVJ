@@ -1,7 +1,9 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
+#include "Game.h"
+#include <Windows.h>
 
 #define SCREEN_X 0
 #define SCREEN_Y 0
@@ -11,6 +13,9 @@
 
 #define INIT_INV_PLAYER_X_TILES 4
 #define INIT_INV_PLAYER_Y_TILES 12
+
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 Scene::Scene()
 {
 	map = NULL;
@@ -23,10 +28,90 @@ Scene::~Scene()
 	clearComponents();
 }
 
+string Scene::getState()
+{
+	return state;
+}
+
+void Scene::setState(string newState) 
+{
+	state = newState;
+}
+
+void Scene::initStartMenu()
+{
+	
+	// background
+	spritesheet.loadFromFile("images/sonic_mainMenu.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(640, 480), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	sprite->setNumberAnimations(0);
+	sprite->setPosition(glm::vec2(float(0), float(0)));
+
+	// selector
+	spritesheetSelector.loadFromFile("images/sonic_selector.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteSelector = Sprite::createSprite(glm::ivec2(30, 20), glm::vec2(1.f, 1.f), &spritesheetSelector, &texProgram);
+	spriteSelector->setNumberAnimations(0);
+	spriteSelector->setPosition(iniPosSelectorMenu);
+
+	//SoundSystem::instance().playMusic("", "MENU");
+}
+
+void Scene::initStartPause()
+{
+
+	// background
+	spritesheet.loadFromFile("images/sonic_pauseMenu.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(640, 480), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	sprite->setNumberAnimations(0);
+	sprite->setPosition(glm::vec2(float(0), float(0)));
+
+	// selector
+	spritesheetSelector.loadFromFile("images/sonic_selector.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteSelector = Sprite::createSprite(glm::ivec2(30, 20), glm::vec2(1.f, 1.f), &spritesheetSelector, &texProgram);
+	spriteSelector->setNumberAnimations(0);
+	spriteSelector->setPosition(iniPosSelectorPause);
+
+	//SoundSystem::instance().playMusic("", "MENU");
+}
+
+void Scene::initStartGameover()
+{
+
+	// background
+	spritesheet.loadFromFile("images/sonic_Gameover.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(640, 480), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	sprite->setNumberAnimations(0);
+	sprite->setPosition(glm::vec2(float(0), float(0)));
+
+	// selector
+	spritesheetSelector.loadFromFile("images/sonic_selector.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteSelector = Sprite::createSprite(glm::ivec2(30, 20), glm::vec2(1.f, 1.f), &spritesheetSelector, &texProgram);
+	spriteSelector->setNumberAnimations(0);
+	spriteSelector->setPosition(iniPosSelectorGameover);
+
+	//SoundSystem::instance().playMusic("", "MENU");
+}
+
+
+void Scene::initStartControls()
+{
+
+	// background
+	spritesheetControls.loadFromFile("images/sonic_controls.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteControls = Sprite::createSprite(glm::ivec2(640, 480), glm::vec2(1.f, 1.f), &spritesheetControls, &texProgram);
+	spriteControls->setNumberAnimations(0);
+	spriteControls->setPosition(glm::vec2(float(0), float(0)));
+	
+
+	//SoundSystem::instance().playMusic("", "MENU");
+}
 
 
 void Scene::init(int levelNum)
 {
+	iniPosSelectorMenu = glm::vec2(float(135), float(265));
+	iniPosSelectorPause = glm::vec2(float(135), float(200));
+	iniPosSelectorGameover = glm::vec2(float(135), float(285));
 	clearComponents();
 	if(!snd) snd = soundEngine->play2D("sounds/inflatableIsland.wav", true, false, true);
 	auto a = snd->getIsPaused();
@@ -39,8 +124,20 @@ void Scene::init(int levelNum)
 	}
 	currentLevel = levelNum;
 	initShaders();
-	collisionengine = new CollisionEngine();
-
+	if (state == "MENU") {
+		initStartMenu();
+	}
+	else if (state == "CONTROLS") {
+		initStartControls();
+	}
+	else if (state == "PAUSE") {
+		initStartPause();
+	}
+	else if (state == "GAMEOVER") {
+		initStartGameover();
+	}
+	else if(state == "PLAYING") {
+		collisionengine = new CollisionEngine();
 	if (currentLevel == 0)loadLvl0Objects();
 	else if(currentLevel == 1) loadLvl1Objects();
 	else if(currentLevel == 2) loadLvl2Objects();
@@ -67,37 +164,198 @@ void Scene::init(int levelNum)
 	//	float(std::max(maxCoord.y,CAMERA_HEIGHT - 1)), float(std::min(minCoord.y,0)));
 	currentTime = 0.0f;
 
-
+    }
 }
+void Scene::updateControls(int deltaTime) {
+	sprite->update(deltaTime);
+	//13 = return
+	if (Game::instance().getKey(13)) {
+		Sleep(400);
+		state = "MENU";
+		init(0);
+	}
+	//spriteControls->render();
+	//Sleep(1000);
+}
+
+void Scene::updateMenu(int deltaTime) {
+	sprite->update(deltaTime);
+	//numSelect = (numSelect + 1) % 3;
+	
+	if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+		
+		//numSelect = (numSelect - 1) % 3;
+		numSelect = numSelect + 1;
+		numSelect = numSelect % 3;
+		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 50.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y < 268) posSelector.y += 50.f;
+		//posSelector.y += 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+
+	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+		numSelect = numSelect - 1;
+		
+		//numSelect = numSelect % 3;
+		if (numSelect < 0) numSelect += 3;
+		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 50.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y > 316) posSelector.y += 50.f;
+		//posSelector.y -= 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+	// return key == 13
+	else if (Game::instance().getKey(13)) {
+		if (numSelect == 0) state = "PLAYING";
+		else if (numSelect == 1) state = "CONTROLS";
+		else if (numSelect == 2) exit(0);
+		numSelect = 0;
+		Sleep(400);
+		init(0);
+		
+		/*
+		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
+		else state = "CONTROLS";
+		init();
+		*/	
+	}
+}
+
+
+
+void Scene::updateGameover(int deltaTime) {
+	sprite->update(deltaTime);
+	//numSelect = (numSelect + 1) % 3;
+
+	if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+
+		//numSelect = (numSelect - 1) % 3;
+		numSelect = numSelect + 1;
+		numSelect = numSelect % 3;
+		glm::vec2 newPosSelector = iniPosSelectorGameover + glm::vec2(0, 55.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y < 268) posSelector.y += 50.f;
+		//posSelector.y += 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+
+	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+		numSelect = numSelect - 1;
+		//numSelect = numSelect % 3;
+		if (numSelect < 0) numSelect += 3;
+		glm::vec2 newPosSelector = iniPosSelectorGameover + glm::vec2(0, 55.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y > 316) posSelector.y += 50.f;
+		//posSelector.y -= 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+	// return key == 13
+	else if (Game::instance().getKey(13)) {
+		if (numSelect == 0) state = "PLAYING";
+		else if (numSelect == 1) state = "MENU";
+		else if (numSelect == 2) exit(0);
+		numSelect = 0;
+		Sleep(400);
+		init(0);
+
+		/*
+		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
+		else state = "CONTROLS";
+		init();
+		*/
+	}
+}
+
+void Scene::updatePause(int deltaTime) {
+	sprite->update(deltaTime);
+	//numSelect = (numSelect + 1) % 3;
+
+	if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+
+		//numSelect = (numSelect - 1) % 3;
+		numSelect = numSelect + 1;
+		numSelect = numSelect % 4;
+		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 50.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y < 268) posSelector.y += 50.f;
+		//posSelector.y += 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+
+	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+		numSelect = numSelect - 1;
+		//numSelect = numSelect % 3;
+		if (numSelect < 0) numSelect += 4;
+		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 50.f * numSelect);
+		//glm::vec2 posSelector = spriteSelector->getPosition();
+		//if (posSelector.y > 316) posSelector.y += 50.f;
+		//posSelector.y -= 5.f;
+		spriteSelector->setPosition(newPosSelector);
+		spriteSelector->render();
+		Sleep(400);
+	}
+	// return key == 13
+	else if (Game::instance().getKey(13)) {
+		if (numSelect == 0) state = "PLAYING";
+		else if (numSelect == 1) state = "CONTROLS";
+		else if (numSelect == 2) state = "MENU";
+		else if (numSelect == 3) exit(0);
+		numSelect = 0;
+		Sleep(400);
+		init(0);
+
+		/*
+		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
+		else state = "CONTROLS";
+		init();
+		*/
+	}
+}
+
 
 void Scene::update(int deltaTime)
 {
-	currentTime += deltaTime;
-	sky->update(deltaTime);
-	skyInv->update(deltaTime);
-	map->update(deltaTime);
-	EventQueue aux = objectsController->update(deltaTime);
-	EventQueue aux2 = player->update(deltaTime);
-	while (!aux2.queue.empty())
-	{
+	if (state == "MENU") {
+		updateMenu(deltaTime);
+	}
+	else if (state == "CONTROLS") {
+		updateControls(deltaTime);
+	}
+	else if (state == "PAUSE") {
+		updatePause(deltaTime);
+	}
+	else if (state == "GAMEOVER") {
+		updateGameover(deltaTime);
+	}
+	else {
+		currentTime += deltaTime;
+		sky->update(deltaTime);
+		skyInv->update(deltaTime);
+		map->update(deltaTime);
+		EventQueue aux = objectsController->update(deltaTime);
+		EventQueue aux2 = player->update(deltaTime);
+		while (!aux2.queue.empty())
+      {
 		aux.queue.push(aux2.queue.front());
 		aux2.queue.pop();
-	}
-	aux2 = playerInv->update(deltaTime);
-	while (!aux2.queue.empty())
-	{
-		aux.queue.push(aux2.queue.front());
-		aux2.queue.pop();
-	}
-	checkMinAndMaxCoords();
-
+	  }
 	while (!aux.queue.empty())
 	{
 		if (aux.queue.front() == EventQueue::playerDead && !godMode)
 		{
-			//init(currentLevel);
-			player->kill();
-			playerInv->kill();
+			aux.queue.push(aux2.queue.front());
+			aux2.queue.pop();
 		}
 		else if (aux.queue.front() == EventQueue::RestartLevel)
 		{
@@ -110,12 +368,17 @@ void Scene::update(int deltaTime)
 		}
 		aux.queue.pop();
 	}
+	checkMinAndMaxCoords();
+}
+
+void Scene::resetCamOffset() {
+	camOffset = glm::vec2(0, 0);
 }
 
 void Scene::render()
 {
-	sky->render();
-	skyInv->render();
+	
+
 	glm::mat4 modelview = glm::mat4(1.0f);;
 	//modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
 	texProgram.use();
@@ -128,11 +391,39 @@ void Scene::render()
 	//modelview = glm::scale(modelview, glm::vec3(1.0f, 1.0f, 1.0f));
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+	if (state == "MENU") {
+		sprite->render();
+		spriteSelector->render();
+	}
+	else if (state == "CONTROLS") {
+		spriteControls->render();
+		
+	}
+	else if (state == "PAUSE") {
+		sprite->render();
+		spriteSelector->render();
+	}
+	else if (state == "GAMEOVER") {
+		sprite->render();
+		spriteSelector->render();
+	}
+	else if (state == "PLAYING") {
+		sky->render();
+		skyInv->render();
+		map->render();
+		objectsController->render();
+		player->render();
+		playerInv->render_inv_y();
+		sea->lateRender();
+	}
+	/*
 	map->render();
 	objectsController->render();
 	player->render();
 	playerInv->render_inv_y();
 	sea->lateRender();
+	*/
+	
 }
 
 void Scene::initShaders()
