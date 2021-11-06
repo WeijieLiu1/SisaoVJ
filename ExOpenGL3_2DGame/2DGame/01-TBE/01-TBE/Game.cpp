@@ -25,14 +25,24 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
-	if(key == 27) // Escape code
-		bPlay = false;
-	else if (key == 'g')
-		scene.switchGodMode();
-	else if (key == 'b')
-		scene.openBarriers();
-	else if (key == '0') scene.init(0);
-	else if (key == '1') scene.init(1);
+	//if(key == 27) // Escape code
+		//bPlay = false;
+	string state = scene.getState();
+	if (state == "PLAYING") {
+		if (key == 'g')
+			scene.switchGodMode();
+		else if (key == 'b')
+			scene.openBarriers();
+		else if (key == '0') scene.init(0);
+		else if (key == '1') scene.init(1);
+		else if (key == 27) {
+			// Escape code
+			scene.resetCamOffset();
+			scene.setState("PAUSE");
+			scene.initStartPause();
+		}
+	}
+	
 	keys[key] = true;
 }
 
@@ -73,7 +83,10 @@ bool Game::getSpecialKey(int key) const
 	return specialKeys[key];
 }
 
-
+bool Game::getSpecialKeyPressed(int key) const
+{
+	return specialKeys[key];
+}
 
 
 

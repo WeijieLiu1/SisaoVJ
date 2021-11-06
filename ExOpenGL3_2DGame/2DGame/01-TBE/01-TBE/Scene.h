@@ -35,13 +35,30 @@ public:
 	~Scene();
 
 	void init(int levelNum = 0);
+
+
+	void initStartMenu();
+	void initStartControls();
+	void initStartPause();
+	void initStartGameover();
+
+	void updateMenu(int deltaTime);
+	void updateControls(int deltaTime);
+	void updatePause(int deltaTime);
+	void updateGameover(int deltaTime);
+
+	void resetCamOffset();
+
 	void update(int deltaTime);
 	void render();
 	void switchGodMode();
 	void openBarriers();
+	string getState();
+	void setState(string newState);
 private:
 	void initShaders();
 	void clearComponents();
+
 private:
 	irrklang::ISoundEngine* soundEngine;
 	TileMap *map;
@@ -60,6 +77,13 @@ private:
 	std::vector<Barrier*> barriers;
 	Sea* sea;
 	float finishTimer;
+	int numSelect = 0;
+
+	glm::vec2 iniPosSelectorMenu, iniPosSelectorPause, iniPosSelectorGameover;
+
+	Texture spritesheet, spritesheetSelector, spritesheetControls;
+	Sprite* sprite, *spriteSelector, * spriteControls;
+	string state = "GAMEOVER"; //MENU, CONTROLS, PLAYING, GAMEOVER, PAUSE
 };
 
 

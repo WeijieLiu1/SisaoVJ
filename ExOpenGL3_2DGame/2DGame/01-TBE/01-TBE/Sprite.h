@@ -26,6 +26,7 @@ public:
 	void render() const;
 	void render_inv_y() const;
 	void render_inv_x() const;
+	void render_inv_z() const;
 	void render_inv_xy() const;
 	void free();
 
@@ -36,6 +37,7 @@ public:
 	int animation() const;
 
 	void setPosition(const glm::vec2& pos);
+	glm::vec2 getPosition();
 
 private:
 	Texture* texture;
