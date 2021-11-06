@@ -6,8 +6,8 @@
 void Game::init()
 {
 	bPlay = true;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-	scene.init();
+	glClearColor(0.25f, 0.25f, 0.875f, 1.0f);
+	scene.init(1);
 }
 
 bool Game::update(int deltaTime)
@@ -35,6 +35,10 @@ void Game::keyPressed(int key)
 			scene.openBarriers();
 		else if (key == '0') scene.init(0);
 		else if (key == '1') scene.init(1);
+    else if (key == '2') scene.init(2);
+   	else if (key == '3') scene.init(3);
+  	else if (key == '4') scene.init(4);
+	  else if (key == '5') scene.init(5);
 		else if (key == 27) {
 			// Escape code
 			scene.resetCamOffset();
@@ -42,7 +46,6 @@ void Game::keyPressed(int key)
 			scene.initStartPause();
 		}
 	}
-	
 	keys[key] = true;
 }
 

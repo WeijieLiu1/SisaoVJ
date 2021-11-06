@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "CollisionEngine.h"
 #include "EventQueue.h"
+#include "irrKlang.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -21,6 +22,7 @@ public:
 	void render_inv_y();
 
 	void setCollEngine(CollisionEngine* colis);
+	void setSoundEngine(irrklang::ISoundEngine* se);
 	void setPosition(const glm::vec2& pos);
 	void kill();
 	glm::vec2 getPosition();
@@ -35,6 +37,8 @@ private:
 	CollisionEngine* col;
 	bool alive = true;
 	float deathAnimTimer = 0;
+
+	irrklang::ISoundEngine* soundEngine;
 };
 
 

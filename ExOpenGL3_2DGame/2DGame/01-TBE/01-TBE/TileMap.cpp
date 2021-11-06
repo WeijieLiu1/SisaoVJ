@@ -63,7 +63,7 @@ void TileMap::render_inv_y() const
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 	shaderProgram->setUniformMatrix4f("tileMapView", tileMapView);
 	*/
-
+	/*
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
 	glBindVertexArray(vao);
@@ -71,7 +71,7 @@ void TileMap::render_inv_y() const
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
 	glDisable(GL_TEXTURE_2D);
-	//objectsController.render();
+	//objectsController.render();*/
 }
 void TileMap::render() const
 {	
@@ -203,18 +203,18 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				texCoordTile[1] -= halfTexel;
 				// First triangle
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
-				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
-				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
+				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y);
+				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
-				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
+				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[0].y);
 				// Second triangle
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
-				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
 				vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
-				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
-				vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
 				vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[0].y);
+				vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
+				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
 			}
 			
 		}
@@ -251,7 +251,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2& pos, const glm::ivec2& size) c
 	{
 		auto aux = map[y * mapSize.x + x];
 
-		if (aux != 0 && aux != 1)
+		if (aux != 0 && aux != 1 && aux != 59)
 			return true;
 	}
 
@@ -269,8 +269,9 @@ bool TileMap::collisionMoveRight(const glm::ivec2& pos, const glm::ivec2& size) 
 	{
 		auto aux = map[y * mapSize.x + x];
 
-		if (aux != 0 && aux != 1)
+		if (aux != 0 && aux != 1 && aux != 59)
 			return true;
+		else auto a = aux;
 	}
 
 	return false;
@@ -287,7 +288,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2& pos, const glm::ivec2& size, i
 	{
 		auto aux = map[y * mapSize.x + x];
 
-		if (aux != 0 && aux != 1)
+		if (aux != 0 && aux != 1 && aux != 59)
 		{
 			if (*posY - tileSize * y + size.y <= size.x/2)
 			{
@@ -310,8 +311,9 @@ bool TileMap::collisionMoveUp(const glm::ivec2& pos, const glm::ivec2& size, int
 	{
 		auto aux = map[y * mapSize.x + x];
 
-		if (aux != 0 && aux != 1)
+		if (aux != 0 && aux != 1 && aux != 59)
 		{
+
 			if (*posY - tileSize * y - size.y <= size.x/2)
 			{
 				*posY = tileSize * y + size.y;

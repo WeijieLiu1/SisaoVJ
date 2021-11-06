@@ -244,6 +244,11 @@ void Player::setCollEngine(CollisionEngine* colis)
 	col = colis;
 }
 
+void Player::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
+}
+
 void Player::setPosition(const glm::vec2& pos)
 {
 	posPlayer = pos;
@@ -260,5 +265,6 @@ void Player::kill()
 	{
 		deathAnimTimer = 0.0f;
 		alive = false;
+		//soundEngine->play2D("sounds/SFXSpike.wav", false);
 	}
 }

@@ -13,7 +13,7 @@ Sea::Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram)
 	sprite->setAnimationSpeed(0, 8);
 	sprite->addKeyframe(0, glm::vec2(0.f, 0.f));
 	sprite->changeAnimation(0);
-	sprite->setPosition(pos);
+	sprite->setPosition(glm::ivec2(pos.x,pos.y-16));
 }
 
 EventQueue Sea::update(float deltaTime)
@@ -32,7 +32,17 @@ void Sea::lateRender()
 }
 bool Sea::collided(glm::ivec2 source, glm::ivec2 size)
 {
+	if (!haveCollided && soundEngine != NULL)
+	{
+		soundEngine->setAllSoundsPaused();
+		irrklang::ISound* snd = soundEngine->play2D("sounds/SFXSea.wav", false, false, true);
+		snd->setVolume(2.5f);
+	}
 	haveCollided = true;
 
 	return true; //Is solid
+}
+void Sea::setSoundEngine(irrklang::ISoundEngine* se)
+{
+	soundEngine = se;
 }
