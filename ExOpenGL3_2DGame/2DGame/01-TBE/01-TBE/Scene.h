@@ -47,8 +47,6 @@ public:
 	void updatePause(int deltaTime);
 	void updateGameover(int deltaTime);
 
-	void resetCamOffset();
-
 	void update(int deltaTime);
 	void render();
 	void switchGodMode();
@@ -59,6 +57,7 @@ private:
 	void initShaders();
 	void checkMinAndMaxCoords();
 	void clearComponents();
+	void resetCameraCenter();
 
 	void loadLvl0Objects();
 	void loadLvl1Objects();
@@ -90,7 +89,7 @@ private:
 	Sea* sea;
 	float finishTimer;
 	int numSelect = 0;
-  glm::vec2 playerInitPos;
+	glm::vec2 playerInitPos;
 	glm::vec2 playerInvInitPos;
 
 	glm::vec2 iniPosSelectorMenu, iniPosSelectorPause, iniPosSelectorGameover;

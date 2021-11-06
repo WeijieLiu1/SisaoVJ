@@ -7,6 +7,8 @@ void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.25f, 0.25f, 0.875f, 1.0f);
+	scene.setState("MENU");
+	scene.initStartMenu();
 	scene.init(1);
 }
 
@@ -41,7 +43,7 @@ void Game::keyPressed(int key)
 	  else if (key == '5') scene.init(5);
 		else if (key == 27) {
 			// Escape code
-			scene.resetCamOffset();
+			//scene.resetCamOffset();
 			scene.setState("PAUSE");
 			scene.initStartPause();
 		}

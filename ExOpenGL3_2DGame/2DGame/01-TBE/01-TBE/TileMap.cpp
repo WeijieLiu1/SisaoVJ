@@ -32,7 +32,7 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 
 TileMap::~TileMap()
 {
-	if(map != NULL)
+	if(!map)
 		delete map;
 }
 void TileMap::render_inv_y() const

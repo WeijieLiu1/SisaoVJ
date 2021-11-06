@@ -36,6 +36,10 @@ string Scene::getState()
 void Scene::setState(string newState) 
 {
 	state = newState;
+	if (state != "PLAYING")
+	{
+		resetCameraCenter();
+	}
 }
 
 void Scene::initStartMenu()
@@ -52,6 +56,8 @@ void Scene::initStartMenu()
 	spriteSelector = Sprite::createSprite(glm::ivec2(30, 20), glm::vec2(1.f, 1.f), &spritesheetSelector, &texProgram);
 	spriteSelector->setNumberAnimations(0);
 	spriteSelector->setPosition(iniPosSelectorMenu);
+
+	resetCameraCenter();
 
 	//SoundSystem::instance().playMusic("", "MENU");
 }
@@ -89,7 +95,13 @@ void Scene::initStartGameover()
 	spriteSelector->setNumberAnimations(0);
 	spriteSelector->setPosition(iniPosSelectorGameover);
 
-	//SoundSystem::instance().playMusic("", "MENU");
+	if (!snd) snd = soundEngine->play2D("sounds/inflatableIsland.wav", true, false, true);
+	snd->setIsPaused(false);
+
+	if (snd)
+	{
+		snd->setVolume(0.5f);
+	}
 }
 
 
@@ -113,10 +125,9 @@ void Scene::init(int levelNum)
 	iniPosSelectorPause = glm::vec2(float(135), float(200));
 	iniPosSelectorGameover = glm::vec2(float(135), float(285));
 	clearComponents();
+	resetCameraCenter();
 	if(!snd) snd = soundEngine->play2D("sounds/inflatableIsland.wav", true, false, true);
-	auto a = snd->getIsPaused();
 	snd->setIsPaused(false);
-	auto b = snd->getIsPaused();
 
 	if (snd)
 	{
@@ -170,7 +181,7 @@ void Scene::updateControls(int deltaTime) {
 	sprite->update(deltaTime);
 	//13 = return
 	if (Game::instance().getKey(13)) {
-		Sleep(400);
+		Sleep(200);
 		state = "MENU";
 		init(0);
 	}
@@ -193,7 +204,7 @@ void Scene::updateMenu(int deltaTime) {
 		//posSelector.y += 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -207,7 +218,7 @@ void Scene::updateMenu(int deltaTime) {
 		//posSelector.y -= 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
@@ -215,8 +226,8 @@ void Scene::updateMenu(int deltaTime) {
 		else if (numSelect == 1) state = "CONTROLS";
 		else if (numSelect == 2) exit(0);
 		numSelect = 0;
-		Sleep(400);
-		init(0);
+		Sleep(200);
+		init(currentLevel);
 		
 		/*
 		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
@@ -243,7 +254,7 @@ void Scene::updateGameover(int deltaTime) {
 		//posSelector.y += 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -256,7 +267,7 @@ void Scene::updateGameover(int deltaTime) {
 		//posSelector.y -= 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
@@ -264,8 +275,8 @@ void Scene::updateGameover(int deltaTime) {
 		else if (numSelect == 1) state = "MENU";
 		else if (numSelect == 2) exit(0);
 		numSelect = 0;
-		Sleep(400);
-		init(0);
+		Sleep(200);
+		init(currentLevel);
 
 		/*
 		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
@@ -290,7 +301,7 @@ void Scene::updatePause(int deltaTime) {
 		//posSelector.y += 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -303,7 +314,7 @@ void Scene::updatePause(int deltaTime) {
 		//posSelector.y -= 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
-		Sleep(400);
+		Sleep(200);
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
@@ -312,8 +323,8 @@ void Scene::updatePause(int deltaTime) {
 		else if (numSelect == 2) state = "MENU";
 		else if (numSelect == 3) exit(0);
 		numSelect = 0;
-		Sleep(400);
-		init(0);
+		Sleep(200);
+		//init(0);
 
 		/*
 		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
@@ -346,43 +357,46 @@ void Scene::update(int deltaTime)
 		EventQueue aux = objectsController->update(deltaTime);
 		EventQueue aux2 = player->update(deltaTime);
 		while (!aux2.queue.empty())
-      {
-		aux.queue.push(aux2.queue.front());
-		aux2.queue.pop();
-	  }
-	while (!aux.queue.empty())
-	{
-		if (aux.queue.front() == EventQueue::playerDead && !godMode)
 		{
 			aux.queue.push(aux2.queue.front());
 			aux2.queue.pop();
 		}
-		else if (aux.queue.front() == EventQueue::RestartLevel)
+		aux2 = playerInv->update(deltaTime);
+		while (!aux2.queue.empty())
 		{
-			init(currentLevel);
+			aux.queue.push(aux2.queue.front());
+			aux2.queue.pop();
 		}
-		else if (aux.queue.front() == EventQueue::levelCompleted)
+		while (!aux.queue.empty())
 		{
-			if (currentLevel >= 5) currentLevel = 1;
-			init(currentLevel +1);
+			if (aux.queue.front() == EventQueue::playerDead && !godMode)
+			{
+				player->kill();
+				playerInv->kill();
+			}
+			else if (aux.queue.front() == EventQueue::RestartLevel)
+			{
+				
+				setState("GAMEOVER");
+				initStartGameover();
+			}
+			else if (aux.queue.front() == EventQueue::levelCompleted)
+			{
+				if (currentLevel >= 5) currentLevel = 0;
+				init(currentLevel + 1);
+			}
+			aux.queue.pop();
 		}
-		aux.queue.pop();
+		//checkMinAndMaxCoords();
 	}
-	checkMinAndMaxCoords();
-}
-
-void Scene::resetCamOffset() {
-	camOffset = glm::vec2(0, 0);
 }
 
 void Scene::render()
-{
-	
+{	
 
 	glm::mat4 modelview = glm::mat4(1.0f);;
 	//modelview = glm::scale(modelview, glm::vec3(1.0f, -1.0f, 1.0f));
 	texProgram.use();
-	checkMinAndMaxCoords();
 	projection = glm::ortho(float(zoomOut*(cameraCenter.x - CAMERA_WIDTH/2)), float(zoomOut * (cameraCenter.x + CAMERA_WIDTH / 2)),
 		float(zoomOut * (cameraCenter.y + CAMERA_HEIGHT / 2)), float(zoomOut * (cameraCenter.y - CAMERA_HEIGHT / 2)));
 	texProgram.setUniformMatrix4f("projection", projection);
@@ -397,7 +411,6 @@ void Scene::render()
 	}
 	else if (state == "CONTROLS") {
 		spriteControls->render();
-		
 	}
 	else if (state == "PAUSE") {
 		sprite->render();
@@ -405,16 +418,20 @@ void Scene::render()
 	}
 	else if (state == "GAMEOVER") {
 		sprite->render();
+
 		spriteSelector->render();
+
 	}
 	else if (state == "PLAYING") {
 		sky->render();
 		skyInv->render();
+		texProgram.setUniformMatrix4f("modelview", modelview);
 		map->render();
 		objectsController->render();
 		player->render();
 		playerInv->render_inv_y();
 		sea->lateRender();
+		checkMinAndMaxCoords();
 	}
 	/*
 	map->render();
@@ -481,6 +498,10 @@ void Scene::clearComponents()
 	if (playerInv != NULL) delete playerInv;
 	if (objectsController != NULL) delete objectsController;
 	//soundEngine->stopAllSounds();
+}
+void Scene::resetCameraCenter()
+{
+	cameraCenter = glm::ivec2(CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
 }
 
 void Scene::loadLvl0Objects()
