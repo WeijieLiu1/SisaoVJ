@@ -39,6 +39,8 @@ void Scene::setState(string newState)
 	if (state != "PLAYING")
 	{
 		resetCameraCenter();
+		texProgram.setUniform2f("seaPosition", 0, 0);
+		texProgram.setUniform1i("seaAnim", 0);
 	}
 }
 
@@ -511,6 +513,8 @@ void Scene::initShaders()
 	texProgram.bindFragmentOutput("outColor");
 	vShader.free();
 	fShader.free();
+	texProgram.setUniform2f("seaPosition", 0, 0);
+	texProgram.setUniform1i("seaAnim", 0);
 }
 void Scene::checkMinAndMaxCoords()
 {
@@ -571,7 +575,7 @@ void Scene::loadLvl0Objects()
 	BarrierOpener* bo1 = new BarrierOpener(glm::ivec2(256, 192), texProgram, b1);
 	bo1->setSoundEngine(soundEngine);
 	objectsController->addObject(bo1);
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 
@@ -602,7 +606,7 @@ void Scene::loadLvl1Objects()
 	Star* st2 = new Star(glm::ivec2(576, 128), texProgram, false);
 	objectsController->addObject(st2);
 	st2->setSoundEngine(soundEngine);
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 
@@ -639,7 +643,7 @@ void Scene::loadLvl2Objects()
 	sp3->setSoundEngine(soundEngine);
 	objectsController->addObject(sp3);
 
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 
@@ -679,7 +683,7 @@ void Scene::loadLvl3Objects()
 	objectsController->addObject(sp3);
 
 
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 
@@ -739,7 +743,7 @@ void Scene::loadLvl4Objects()
 	objectsController->addObject(bo1);
 
 
-	sea = new Sea(glm::ivec2(-500, 240), texProgram);
+	sea = new Sea(glm::ivec2(-500, 240), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 
@@ -780,7 +784,7 @@ void Scene::loadLvl5Objects()
 	objectsController->addObject(sp4);
 
 
-	sea = new Sea(glm::ivec2(-500, 250), texProgram);
+	sea = new Sea(glm::ivec2(-500, 250), &texProgram);
 	objectsController->addObject(sea);
 	sea->setSoundEngine(soundEngine);
 

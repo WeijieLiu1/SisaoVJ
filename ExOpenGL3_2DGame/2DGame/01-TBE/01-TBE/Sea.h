@@ -9,10 +9,11 @@ class Sea : public Object
 	bool haveCollided = false;
 	Texture spritesheet;
 	Sprite* sprite;
+	ShaderProgram* shaderProgram;
 	irrklang::ISoundEngine* soundEngine;
 	float timerMov1 = 0.0f;
 public:
-	Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram);
+	Sea(const glm::ivec2& pos, ShaderProgram* shaderProgram);
 	EventQueue update(float deltaTime) override;
 	void render() override;
 	void lateRender();
