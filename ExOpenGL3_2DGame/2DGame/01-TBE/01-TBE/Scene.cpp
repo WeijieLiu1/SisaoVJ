@@ -102,7 +102,7 @@ void Scene::initStartGameover()
 
 	if (snd)
 	{
-		snd->setVolume(0.5f);
+		snd->setVolume(0.25f);
 	}
 }
 
@@ -166,7 +166,7 @@ void Scene::init(int levelNum)
 
 	if (snd)
 	{
-		snd->setVolume(0.5f);
+		snd->setVolume(0.25f);
 	}
 	currentLevel = levelNum;
 	initShaders();
