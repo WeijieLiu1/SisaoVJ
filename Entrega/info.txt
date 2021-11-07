@@ -31,6 +31,10 @@ Estructura de 4 Pantalles: menú principal, joc, instruccions i
 crèdits.
 Musica de fons i efectes sonors. Animacions completes del personatge
 
+SHADER
+Hem implementat un shader que simula el moviment de l'aigua per als
+objectes que estan submergits.
+
 
 INSTRUCCIONS DEL JOC
 
