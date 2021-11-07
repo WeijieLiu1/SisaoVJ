@@ -66,7 +66,6 @@ void Scene::initStartMenu()
 
 void Scene::initStartPause()
 {
-
 	// background
 	spritesheet.loadFromFile("images/sonic_pauseMenu.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(640, 480), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
@@ -79,6 +78,44 @@ void Scene::initStartPause()
 	spriteSelector->setNumberAnimations(0);
 	spriteSelector->setPosition(iniPosSelectorPause);
 
+	//number
+	spritesheetNumber.loadFromFile("images/sonic_numbers.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteNumber = Sprite::createSprite(glm::ivec2(30, 38), glm::vec2(0.1f, 1.f), &spritesheetNumber, &texProgram);
+	spriteNumber->setNumberAnimations(6);
+	spriteNumber->setAnimationSpeed(0, 0);
+	spriteNumber->addKeyframe(0, glm::vec2(0.0f, 0.f));
+	spriteNumber->setAnimationSpeed(1, 0);
+	spriteNumber->addKeyframe(1, glm::vec2(0.1f, 0.f));
+	spriteNumber->setAnimationSpeed(2, 0);
+	spriteNumber->addKeyframe(2, glm::vec2(0.2f, 0.f));
+	spriteNumber->setAnimationSpeed(3, 0);
+	spriteNumber->addKeyframe(3, glm::vec2(0.3f, 0.f));
+	spriteNumber->setAnimationSpeed(4, 0);
+	spriteNumber->addKeyframe(4, glm::vec2(0.4f, 0.f));
+	spriteNumber->setAnimationSpeed(5, 0);
+	spriteNumber->addKeyframe(5, glm::vec2(0.5f, 0.f));
+	spriteNumber->changeAnimation(volume);
+
+	spriteNumber->setPosition(iniPosNumberPause);
+
+	//triangle Left
+	spritesheetTriangleLeft.loadFromFile("images/sonic_pauseTriangle.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteTriangleLeft = Sprite::createSprite(glm::ivec2(32, 35), glm::vec2(0.5f, 1.f), &spritesheetTriangleLeft, &texProgram);
+	spriteTriangleLeft->setNumberAnimations(1);
+	spriteTriangleLeft->setAnimationSpeed(0, 0);
+	spriteTriangleLeft->addKeyframe(0, glm::vec2(0.0f, 0.f));
+	spriteTriangleLeft->changeAnimation(0);
+	spriteTriangleLeft->setPosition(iniPosNumberPause - glm::vec2(40.f, 0.f));
+	//SoundSystem::instance().playMusic("", "MENU");
+	// 
+	//triangle Right
+	spritesheetTriangleRight.loadFromFile("images/sonic_pauseTriangle.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteTriangleRight = Sprite::createSprite(glm::ivec2(32, 35), glm::vec2(0.5f, 1.f), &spritesheetTriangleRight, &texProgram);
+	spriteTriangleRight->setNumberAnimations(1);
+	spriteTriangleRight->setAnimationSpeed(0, 0);
+	spriteTriangleRight->addKeyframe(0, glm::vec2(0.5f, 0.));
+	spriteTriangleRight->changeAnimation(0);
+	spriteTriangleRight->setPosition(iniPosNumberPause + glm::vec2(40.f, 0.f));
 	//SoundSystem::instance().playMusic("", "MENU");
 }
 
@@ -102,7 +139,8 @@ void Scene::initStartGameover()
 
 	if (snd)
 	{
-		snd->setVolume(0.25f);
+		snd->setVolume(0.25f * soundScale);
+
 	}
 }
 
@@ -157,8 +195,9 @@ void Scene::initStartPlaying(int levelNum)
 void Scene::init(int levelNum)
 {
 	iniPosSelectorMenu = glm::vec2(float(135), float(265));
-	iniPosSelectorPause = glm::vec2(float(135), float(200));
+	iniPosSelectorPause = glm::vec2(float(135), float(207));
 	iniPosSelectorGameover = glm::vec2(float(135), float(285));
+	iniPosNumberPause = glm::vec2(float(450), float(200));
 	clearComponents();
 	resetCameraCenter();
 	if(!snd) snd = soundEngine->play2D("sounds/inflatableIsland.wav", true, false, true);
@@ -166,7 +205,7 @@ void Scene::init(int levelNum)
 
 	if (snd)
 	{
-		snd->setVolume(0.25f);
+		snd->setVolume(0.25f * soundScale);
 	}
 	currentLevel = levelNum;
 	initShaders();
@@ -182,9 +221,6 @@ void Scene::init(int levelNum)
 	else if (state == "GAMEOVER") {
 		initStartGameover();
 	}
-	else if (state == "PAUSE") {
-		initStartPause();
-	}
 	else if(state == "PLAYING") {
 		initStartPlaying(levelNum);
     }
@@ -194,9 +230,14 @@ void Scene::updateControls(int deltaTime) {
 	//13 = return
 	if (Game::instance().getKey(13)) {
 		Sleep(200);
-		state = "MENU";
-		
-		initStartMenu();
+		if (lastState == "MENU") {
+			state = "MENU";
+			initStartMenu();
+		}
+		else if (lastState == "PAUSE") {
+			state = "PAUSE";
+			initStartPause();
+		}
 	}
 	//spriteControls->render();
 	//Sleep(1000);
@@ -211,7 +252,7 @@ void Scene::updateMenu(int deltaTime) {
 		//numSelect = (numSelect - 1) % 3;
 		numSelect = numSelect + 1;
 		numSelect = numSelect % 3;
-		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 50.f * numSelect);
+		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 55.f * numSelect);
 		//glm::vec2 posSelector = spriteSelector->getPosition();
 		//if (posSelector.y < 268) posSelector.y += 50.f;
 		//posSelector.y += 5.f;
@@ -225,7 +266,7 @@ void Scene::updateMenu(int deltaTime) {
 		
 		//numSelect = numSelect % 3;
 		if (numSelect < 0) numSelect += 3;
-		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 50.f * numSelect);
+		glm::vec2 newPosSelector = iniPosSelectorMenu + glm::vec2(0, 55.f * numSelect);
 		//glm::vec2 posSelector = spriteSelector->getPosition();
 		//if (posSelector.y > 316) posSelector.y += 50.f;
 		//posSelector.y -= 5.f;
@@ -242,6 +283,7 @@ void Scene::updateMenu(int deltaTime) {
 		}
 		else if (numSelect == 1) {
 			state = "CONTROLS";
+			lastState = "MENU";
 			initStartControls();
 		}
 		else if (numSelect == 2) exit(0);
@@ -321,45 +363,87 @@ void Scene::updatePause(int deltaTime) {
 
 		//numSelect = (numSelect - 1) % 3;
 		numSelect = numSelect + 1;
-		numSelect = numSelect % 4;
-		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 50.f * numSelect);
+		numSelect = numSelect % 5;
+		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 55.f * numSelect);
 		//glm::vec2 posSelector = spriteSelector->getPosition();
 		//if (posSelector.y < 268) posSelector.y += 50.f;
 		//posSelector.y += 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
+		spriteNumber->render();
+		spriteTriangleRight->render();
+		spriteTriangleLeft->render();
 		Sleep(200);
 	}
 
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 		numSelect = numSelect - 1;
 		//numSelect = numSelect % 3;
-		if (numSelect < 0) numSelect += 4;
-		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 50.f * numSelect);
+		if (numSelect < 0) numSelect += 5;
+		glm::vec2 newPosSelector = iniPosSelectorPause + glm::vec2(0, 55.f * numSelect);
 		//glm::vec2 posSelector = spriteSelector->getPosition();
 		//if (posSelector.y > 316) posSelector.y += 50.f;
 		//posSelector.y -= 5.f;
 		spriteSelector->setPosition(newPosSelector);
 		spriteSelector->render();
+		spriteNumber->render();
+		spriteTriangleRight->render();
+		spriteTriangleLeft->render();
 		Sleep(200);
 	}
+	if (numSelect == 0) {
+		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+
+			volume -= 1; // 0-10
+			if (volume < 0) volume = 0;
+			soundScale = 0.2f * volume;
+			snd->setVolume(0.25f * soundScale);
+			//number
+			spriteNumber->changeAnimation(volume);
+			//spriteNumber->setPosition(iniPosNumberPause);
+			//SoundSystem::instance().playMusic("", "MENU");
+
+			spriteNumber->setPosition(iniPosNumberPause);
+			spriteNumber->render();
+			spriteTriangleRight->render();
+			spriteTriangleLeft->render();
+			Sleep(200);
+		}
+
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+			volume += 1; // 0-10
+			if (volume > 5) volume = 5;
+			soundScale = 0.2f * volume;
+			snd->setVolume(0.25f * soundScale);
+			//number
+			spriteNumber->changeAnimation(volume);
+			//spriteNumber->setPosition(iniPosNumberPause);
+			//SoundSystem::instance().playMusic("", "MENU");
+			spriteNumber->setPosition(iniPosNumberPause);
+			spriteNumber->render();
+			spriteTriangleRight->render();
+			spriteTriangleLeft->render();
+			Sleep(200);
+		}
+	}
 	// return key == 13
-	else if (Game::instance().getKey(13)) {
-		if (numSelect == 0) {
+	if (Game::instance().getKey(13)) {
+		if (numSelect == 1) {
 			state = "PLAYING"; 
 			//initStartPlaying(currentLevel);
 		}
-		else if (numSelect == 1)
+		else if (numSelect == 2)
 		{
 			state = "CONTROLS";
+			lastState = "PAUSE";
 			initStartControls();
 		}
-		else if (numSelect == 2) 
+		else if (numSelect == 3) 
 		{
 			state = "MENU";
 			initStartMenu();
 		}
-		else if (numSelect == 3) exit(0);
+		else if (numSelect == 4) exit(0);
 		numSelect = 0;
 		Sleep(200);
 		
@@ -371,6 +455,51 @@ void Scene::updatePause(int deltaTime) {
 		init();
 		*/
 	}
+}
+
+void Scene::updatePlaying(int deltaTime) {
+	sprite->update(deltaTime);
+
+	currentTime += deltaTime;
+	sky->update(deltaTime);
+	skyInv->update(deltaTime);
+	map->update(deltaTime);
+	EventQueue aux = objectsController->update(deltaTime);
+	EventQueue aux2 = player->update(deltaTime);
+	while (!aux2.queue.empty())
+	{
+		aux.queue.push(aux2.queue.front());
+		aux2.queue.pop();
+	}
+	aux2 = playerInv->update(deltaTime);
+	while (!aux2.queue.empty())
+	{
+		aux.queue.push(aux2.queue.front());
+		aux2.queue.pop();
+	}
+	while (!aux.queue.empty())
+	{
+		if (aux.queue.front() == EventQueue::playerDead && !godMode)
+		{
+			player->kill();
+			playerInv->kill();
+		}
+		else if (aux.queue.front() == EventQueue::RestartLevel)
+		{
+
+			setState("GAMEOVER");
+			initStartGameover();
+		}
+		else if (aux.queue.front() == EventQueue::levelCompleted)
+		{
+			if (currentLevel >= 5) currentLevel = 0;
+			init(currentLevel + 1);
+		}
+		aux.queue.pop();
+	}
+	//checkMinAndMaxCoords();
+	//spriteControls->render();
+	//Sleep(1000);
 }
 
 
@@ -389,44 +518,7 @@ void Scene::update(int deltaTime)
 		updateGameover(deltaTime);
 	}
 	else {
-		currentTime += deltaTime;
-		sky->update(deltaTime);
-		skyInv->update(deltaTime);
-		map->update(deltaTime);
-		EventQueue aux = objectsController->update(deltaTime);
-		EventQueue aux2 = player->update(deltaTime);
-		while (!aux2.queue.empty())
-		{
-			aux.queue.push(aux2.queue.front());
-			aux2.queue.pop();
-		}
-		aux2 = playerInv->update(deltaTime);
-		while (!aux2.queue.empty())
-		{
-			aux.queue.push(aux2.queue.front());
-			aux2.queue.pop();
-		}
-		while (!aux.queue.empty())
-		{
-			if (aux.queue.front() == EventQueue::playerDead && !godMode)
-			{
-				player->kill();
-				playerInv->kill();
-			}
-			else if (aux.queue.front() == EventQueue::RestartLevel)
-			{
-				
-				setState("GAMEOVER");
-				initStartGameover();
-			}
-			else if (aux.queue.front() == EventQueue::levelCompleted)
-			{
-				if (currentLevel >= 5) currentLevel = 0;
-				init(currentLevel + 1);
-			}
-			aux.queue.pop();
-		}
-		//checkMinAndMaxCoords();
+		updatePlaying(deltaTime);
 	}
 }
 
@@ -458,11 +550,13 @@ void Scene::render()
 	else if (state == "PAUSE") {
 		sprite->render();
 		spriteSelector->render();
+		spriteNumber->render();
+		spriteTriangleRight->render();
+		spriteTriangleLeft->render();
 	}
 	else if (state == "GAMEOVER") {
 		sprite->render();
 		spriteSelector->render();
-
 	}
 	else if (state == "PLAYING") {
 		sky->render();
