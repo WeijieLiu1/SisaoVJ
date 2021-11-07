@@ -28,7 +28,7 @@ a nivells concrets.
 
 POLISH
 Estructura de 4 Pantalles: menú principal, joc, instruccions i
-crèdits.
+crèdits. Adicionalment hem afegit un menú de pause i un Game Over.
 Musica de fons i efectes sonors. Animacions completes del personatge
 
 SHADER
@@ -47,7 +47,12 @@ Compte, en el mapa es poden trobar 3 tipus d'obstacles:
  - Punxes: Al tocar-les els sonics moriran i es reiniciarà el nivell.
  - Barrera: No permet el pas fins que s'obre amb l'obridor corresponent.
 A més, si el sonic de la superfície cau al mar o el reflectit en surt,
-els dos personatges moriràn i es reiniciarà el nivell.
+els dos personatges moriràn i s'activarà el menú de game over.
+
+Per moure's pels menús s'han de fer servir les fletxes d'amunt i avall
+del teclat per triar la opció desitjada i la tecla enter per seleccionar-la.
+En qualsevol moment del gameplay es pot apretar la tecla ESC per anar al
+menú de pausa.
 TRUCS: Amb la tecla "g" s'activa i desactiva la immortalitat, amb la tecla
 "b" es desactiven les barreres i amb els nombres del 0 al 5 es pot saltar
 a un nivell concret.
