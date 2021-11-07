@@ -118,6 +118,39 @@ void Scene::initStartControls()
 	//SoundSystem::instance().playMusic("", "MENU");
 }
 
+void Scene::initStartPlaying(int levelNum)
+{
+	collisionengine = new CollisionEngine();
+	if (currentLevel == 0)loadLvl0Objects();
+	else if (currentLevel == 1) loadLvl1Objects();
+	else if (currentLevel == 2) loadLvl2Objects();
+	else if (currentLevel == 3) loadLvl3Objects();
+	else if (currentLevel == 4) loadLvl4Objects();
+	else if (currentLevel == 5) loadLvl5Objects();
+	else loadLvl0Objects();
+
+	player = new Player();
+	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	player->setPosition(playerInitPos);
+	player->setCollEngine(collisionengine);
+	player->setSoundEngine(soundEngine);
+	playerInv = new Player();
+	playerInv->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, true);
+	playerInv->setPosition(playerInvInitPos);
+	playerInv->setCollEngine(collisionengine);
+	playerInv->setSoundEngine(soundEngine);
+	//playerInv->setTileMap(map);
+	// 
+	//projection = glm::ortho(-float(CAMERA_WIDTH - 1 + 320), float(CAMERA_WIDTH - 1+320), float(CAMERA_HEIGHT - 1+320), -float(CAMERA_HEIGHT - 1 + 320));
+	checkMinAndMaxCoords();
+	//projection = glm::ortho(float(std::max(minCoord.x-15,0)), float(std::max(maxCoord.x,CAMERA_WIDTH - 1)), 
+	//	float(std::max(maxCoord.y,CAMERA_HEIGHT - 1)), float(std::min(minCoord.y,0)));
+	currentTime = 0.0f;
+
+
+
+
+}
 
 void Scene::init(int levelNum)
 {
@@ -147,34 +180,11 @@ void Scene::init(int levelNum)
 	else if (state == "GAMEOVER") {
 		initStartGameover();
 	}
+	else if (state == "PAUSE") {
+		initStartPause();
+	}
 	else if(state == "PLAYING") {
-		collisionengine = new CollisionEngine();
-	if (currentLevel == 0)loadLvl0Objects();
-	else if(currentLevel == 1) loadLvl1Objects();
-	else if(currentLevel == 2) loadLvl2Objects();
-	else if(currentLevel == 3) loadLvl3Objects();
-	else if(currentLevel == 4) loadLvl4Objects();
-	else if(currentLevel == 5) loadLvl5Objects();
-	else loadLvl0Objects();
-
-	player = new Player();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(playerInitPos);
-	player->setCollEngine(collisionengine);
-	player->setSoundEngine(soundEngine);
-	playerInv = new Player();
-	playerInv->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, true);
-	playerInv->setPosition(playerInvInitPos);
-	playerInv->setCollEngine(collisionengine);
-	playerInv->setSoundEngine(soundEngine);
-	//playerInv->setTileMap(map);
-	// 
-	//projection = glm::ortho(-float(CAMERA_WIDTH - 1 + 320), float(CAMERA_WIDTH - 1+320), float(CAMERA_HEIGHT - 1+320), -float(CAMERA_HEIGHT - 1 + 320));
-	checkMinAndMaxCoords();
-	//projection = glm::ortho(float(std::max(minCoord.x-15,0)), float(std::max(maxCoord.x,CAMERA_WIDTH - 1)), 
-	//	float(std::max(maxCoord.y,CAMERA_HEIGHT - 1)), float(std::min(minCoord.y,0)));
-	currentTime = 0.0f;
-
+		initStartPlaying(levelNum);
     }
 }
 void Scene::updateControls(int deltaTime) {
@@ -183,7 +193,8 @@ void Scene::updateControls(int deltaTime) {
 	if (Game::instance().getKey(13)) {
 		Sleep(200);
 		state = "MENU";
-		init(0);
+		
+		initStartMenu();
 	}
 	//spriteControls->render();
 	//Sleep(1000);
@@ -222,8 +233,15 @@ void Scene::updateMenu(int deltaTime) {
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
-		if (numSelect == 0) state = "PLAYING";
-		else if (numSelect == 1) state = "CONTROLS";
+		if (numSelect == 0)
+		{
+			state = "PLAYING";
+			initStartPlaying(currentLevel);
+		}
+		else if (numSelect == 1) {
+			state = "CONTROLS";
+			initStartControls();
+		}
 		else if (numSelect == 2) exit(0);
 		numSelect = 0;
 		Sleep(200);
@@ -271,12 +289,19 @@ void Scene::updateGameover(int deltaTime) {
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
-		if (numSelect == 0) state = "PLAYING";
-		else if (numSelect == 1) state = "MENU";
+		if (numSelect == 0) {
+			state = "PLAYING";
+			initStartPlaying(currentLevel);
+		}
+		else if (numSelect == 1) 
+		{
+			state = "MENU";
+			initStartMenu();
+		}
 		else if (numSelect == 2) exit(0);
 		numSelect = 0;
 		Sleep(200);
-		init(currentLevel);
+		//init(currentLevel);
 
 		/*
 		if ((spriteSelector->getPosition()).y == 267) state = "PLAYING";
@@ -318,12 +343,24 @@ void Scene::updatePause(int deltaTime) {
 	}
 	// return key == 13
 	else if (Game::instance().getKey(13)) {
-		if (numSelect == 0) state = "PLAYING";
-		else if (numSelect == 1) state = "CONTROLS";
-		else if (numSelect == 2) state = "MENU";
+		if (numSelect == 0) {
+			state = "PLAYING"; 
+			//initStartPlaying(currentLevel);
+		}
+		else if (numSelect == 1)
+		{
+			state = "CONTROLS";
+			initStartControls();
+		}
+		else if (numSelect == 2) 
+		{
+			state = "MENU";
+			initStartMenu();
+		}
 		else if (numSelect == 3) exit(0);
 		numSelect = 0;
 		Sleep(200);
+		
 		//init(0);
 
 		/*
@@ -391,6 +428,10 @@ void Scene::update(int deltaTime)
 	}
 }
 
+bool Scene::getGodmode() {
+	return godMode;
+}
+
 void Scene::render()
 {	
 
@@ -418,7 +459,6 @@ void Scene::render()
 	}
 	else if (state == "GAMEOVER") {
 		sprite->render();
-
 		spriteSelector->render();
 
 	}

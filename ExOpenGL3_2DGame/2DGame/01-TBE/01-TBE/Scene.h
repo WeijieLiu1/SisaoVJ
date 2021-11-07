@@ -41,11 +41,13 @@ public:
 	void initStartControls();
 	void initStartPause();
 	void initStartGameover();
+	void initStartPlaying(int levelNum);
 
 	void updateMenu(int deltaTime);
 	void updateControls(int deltaTime);
 	void updatePause(int deltaTime);
 	void updateGameover(int deltaTime);
+	void updatePlaying(int deltaTime);
 
 	void update(int deltaTime);
 	void render();
@@ -53,6 +55,8 @@ public:
 	void openBarriers();
 	string getState();
 	void setState(string newState);
+	bool getGodmode();
+
 private:
 	void initShaders();
 	void checkMinAndMaxCoords();
