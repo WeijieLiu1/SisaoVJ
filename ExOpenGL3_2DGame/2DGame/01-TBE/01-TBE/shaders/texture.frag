@@ -7,6 +7,7 @@ uniform int seaAnim;
 
 
 in vec2 texCoordFrag;
+in vec2 fragPosition;
 out vec4 outColor;
 
 void main()
@@ -17,7 +18,7 @@ void main()
 	if(gl_FragCoord.y < seaPosition.y) 
 	{
 		float angle = float(seaAnim)*3200.0/720.0;
-		float s =0.001* sin(-angle + 0.2*gl_FragCoord.x);
+		float s =0.001* sin(-angle + 0.2*fragPosition.x);
 		texColor = texture(tex, vec2(texCoordFrag.x, texCoordFrag.y+s));
 	}
 	else
