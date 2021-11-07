@@ -584,8 +584,8 @@ void Scene::loadLvl0Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 
 	sp2->setObjectsToCollide(objectsController->getAllObjects());
 	sp3->setObjectsToCollide(objectsController->getAllObjects());
@@ -613,8 +613,8 @@ void Scene::loadLvl1Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 	playerInitPos = glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize());
 	playerInvInitPos = glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize(), INIT_INV_PLAYER_Y_TILES * map->getTileSize());
 }
@@ -650,8 +650,8 @@ void Scene::loadLvl2Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 	playerInitPos = glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize());
 	playerInvInitPos = glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize(), INIT_INV_PLAYER_Y_TILES * map->getTileSize());
 }
@@ -690,8 +690,8 @@ void Scene::loadLvl3Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 
 	sp3->setObjectsToCollide(objectsController->getAllObjects());
 	sp3->setTilemap(map);
@@ -750,8 +750,8 @@ void Scene::loadLvl4Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 
 	playerInitPos = glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize()+320+160, INIT_PLAYER_Y_TILES * map->getTileSize());
 	playerInvInitPos = glm::vec2(INIT_INV_PLAYER_X_TILES * map->getTileSize() + 320+160, INIT_INV_PLAYER_Y_TILES * map->getTileSize());
@@ -791,8 +791,8 @@ void Scene::loadLvl5Objects()
 	objectsController->setTileSize(map->getTileSize());
 	int tileSize = map->getTileSize();
 	glm::vec2 auxSize = glm::vec2(map->getMapSize().x * tileSize + 320, map->getMapSize().y / 2 * tileSize);
-	sky = new Sky(glm::ivec2(-320, 0), auxSize, texProgram);
-	skyInv = new Sky(glm::ivec2(-320, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
+	sky = new Sky(glm::ivec2(-3200, 0), auxSize, texProgram);
+	skyInv = new Sky(glm::ivec2(-3200, map->getMapSize().y * tileSize - 33), auxSize, texProgram, true);
 
 	sp3->setObjectsToCollide(objectsController->getAllObjects());
 	sp3->setTilemap(map);

@@ -10,6 +10,7 @@ class Sea : public Object
 	Texture spritesheet;
 	Sprite* sprite;
 	irrklang::ISoundEngine* soundEngine;
+	float timerMov1 = 0.0f;
 public:
 	Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram);
 	EventQueue update(float deltaTime) override;

@@ -18,6 +18,10 @@ Sea::Sea(const glm::ivec2& pos, ShaderProgram& shaderProgram)
 
 EventQueue Sea::update(float deltaTime)
 {
+	timerMov1 += deltaTime;
+	if (timerMov1 > 3200) timerMov1 = 0;
+	sprite->setPosition(glm::ivec2(position.x + timerMov1 / 100, position.y - 16));
+
 	EventQueue ret;
 	if (haveCollided) ret.queue.push(ret.playerDead);
 
