@@ -93,14 +93,17 @@ private:
 	Sea* sea;
 	float finishTimer;
 	int numSelect = 0;
+	float soundScale = 1.f;
+	int volume = 5; // 0-5
 	glm::vec2 playerInitPos;
 	glm::vec2 playerInvInitPos;
 
-	glm::vec2 iniPosSelectorMenu, iniPosSelectorPause, iniPosSelectorGameover;
+	glm::vec2 iniPosSelectorMenu, iniPosSelectorPause, iniPosSelectorGameover, iniPosNumberPause;
 
-	Texture spritesheet, spritesheetSelector, spritesheetControls;
-	Sprite* sprite, *spriteSelector, * spriteControls;
-	string state = "GAMEOVER"; //MENU, CONTROLS, PLAYING, GAMEOVER, PAUSE
+	Texture spritesheet, spritesheetSelector, spritesheetControls, spritesheetNumber, spritesheetTriangleLeft, spritesheetTriangleRight;
+	Sprite* sprite, * spriteSelector, * spriteControls, * spriteNumber, * spriteTriangleLeft, * spriteTriangleRight;
+	string state = "MENU"; //MENU, CONTROLS, PLAYING, GAMEOVER, PAUSE
+	string lastState;
 };
 
 
