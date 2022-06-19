@@ -2,5 +2,5 @@
 FIB-UPC VIDEOJOCS 
 
 author:
-Weijie Liu: weijie.liu@estudiantat.upc.edu
-Oriol Freixa Dachs: oriol.freixa.dachs@estudiantat.upc.edu
+WeijieLiu1: weijie.liu@estudiantat.upc.edu\n
+OriolFD: oriol.freixa.dachs@estudiantat.upc.edu
